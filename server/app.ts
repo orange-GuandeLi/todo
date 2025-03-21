@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { todo } from "./todo/router";
 import { ZodError } from "zod";
 import { FormatZodError } from "./util";
+import { serveStatic } from "hono/bun";
 
 export const app = new Hono()
   .notFound((c) => {
@@ -17,7 +18,8 @@ export const app = new Hono()
     }
 
     return c.text("Internal Server Error", 500);
-  });
+  })
+  .use(serveStatic({ root: "./client/dist" }));
 
 const apiRoute = app
   .basePath("/api")
