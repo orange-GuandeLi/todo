@@ -23,3 +23,5 @@ const apiRoute = app
   .basePath("/api")
   .route("/todo", todo)
   .get("/ping", (c) => c.text("pong"));
+
+export type ApiRoute = typeof apiRoute;
