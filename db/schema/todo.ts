@@ -1,5 +1,6 @@
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createSelectSchema, createInsertSchema, createUpdateSchema } from 'drizzle-zod';
+import { z } from "zod";
 
 export const TodoTable = sqliteTable("Todo", {
   id: int("id").primaryKey({autoIncrement: true}).unique(),
@@ -10,6 +11,8 @@ export const TodoTable = sqliteTable("Todo", {
   updatedAt: int("updated_at", {mode: "timestamp"}).notNull().default(new Date()).$onUpdate(() => new Date()),
 });
 
-export const todoTableSelectSchema = createSelectSchema(TodoTable);
+export const todoTableSelectSchema = createSelectSchema(TodoTable, {
+  id: z.coerce.number().int().positive(),
+});
 export const todoTableInsertSchema = createInsertSchema(TodoTable);
 export const todoTableUpdateSchema = createUpdateSchema(TodoTable);

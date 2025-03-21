@@ -13,14 +13,14 @@ Content-Type: application/json
 {
   "title": "测试",
   "description": "这是一个测试",
-  "completed": false,
+  "completed": false
 }
 
 ### 删除一个todo
-DELETE {{BaseURL}}/todo/1
+DELETE {{BaseURL}}/todo/10
 
 ### 更新一个todo
-PUT {{BaseURL}}/todo/2
+PUT {{BaseURL}}/todo/9
 Content-Type: application/json
 
 {

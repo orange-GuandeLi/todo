@@ -13,7 +13,7 @@ export const app = new Hono()
     }
 
     if (err instanceof Error) {
-      return c.text(err.message, 400);
+      return c.text(err.message, 500);
     }
     return c.text("Internal Server Error", 500);
   });
