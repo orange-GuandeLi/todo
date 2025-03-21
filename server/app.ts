@@ -3,6 +3,7 @@ import { todo } from "./todo/router";
 import { ZodError } from "zod";
 import { FormatZodError } from "./util";
 import { serveStatic } from "hono/bun";
+import { todoModel } from "./todo/model";
 
 export const app = new Hono()
   .notFound((c) => {
@@ -23,7 +24,7 @@ export const app = new Hono()
 
 const apiRoute = app
   .basePath("/api")
-  .route("/todo", todo)
+  .route("/todo", todo(todoModel))
   .get("/ping", (c) => c.text("pong"));
 
 export type ApiRoute = typeof apiRoute;
