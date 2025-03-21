@@ -1,5 +1,5 @@
 dev:
-	bun index.ts
+	bun server/index.ts
 
 db-g:
 	bunx drizzle-kit generate
