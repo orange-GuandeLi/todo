@@ -1,0 +1,51 @@
+import { Hono } from "hono";
+import { db } from "../../db";
+import { TodoTable } from "../../db/schema/todo";
+import { eq } from "drizzle-orm";
+
+export const todo = new Hono()
+  .get("/", async (c) => {
+    const todos = await db
+      .select()
+      .from(TodoTable)
+
+    return c.json(todos, 200);
+  })
+  .post("/", async (c) => {
+    const { title, completed } = await c.req.json();
+
+    const todo = await db
+     .insert(TodoTable)
+     .values({
+       title,
+       completed,
+     })
+     .returning()
+     .then(res => res[0]);
+
+    return c.json(todo, 201);
+  })
+  .delete("/:id", async (c) => {
+    const { id } = c.req.param();
+    const todo = await db
+      .delete(TodoTable)
+      .where(eq(TodoTable.id, +id))
+      .returning()
+      .then(res => res[0]);
+
+    return c.json(todo, 200);
+  })
+  .put("/:id", async (c) => {
+    const { id } = c.req.param();
+    const { title, completed } = await c.req.json();
+    const todo = await db
+     .update(TodoTable)
+     .set({
+       title,
+       completed,
+     })
+     .where(eq(TodoTable.id, +id))
+     .returning()
+    .then(res => res[0]);
+    return c.json(todo, 200);
+  })

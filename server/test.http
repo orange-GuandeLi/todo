@@ -1,0 +1,28 @@
+@BaseURL=http://localhost:3000/api
+
+### 心跳检测
+GET {{BaseURL}}/ping
+
+### 获取所有todo
+GET {{BaseURL}}/todo
+
+### 新建一个todo
+POST {{BaseURL}}/todo
+Content-Type: application/json
+
+{
+    "title": "这是一个测试",
+    "description": "这是一个测试",
+    "completed": false
+}
+
+### 删除一个todo
+DELETE {{BaseURL}}/todo/1
+
+### 更新一个todo
+PUT {{BaseURL}}/todo/2
+Content-Type: application/json
+
+{
+  "completed": true
+}
