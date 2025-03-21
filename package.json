@@ -11,6 +11,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@hono/zod-validator": "^0.4.3",
     "drizzle-orm": "^0.40.1",
     "drizzle-zod": "^0.7.0",
     "hono": "^4.7.5",

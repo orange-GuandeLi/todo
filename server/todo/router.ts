@@ -3,6 +3,9 @@ import { db } from "../../db";
 import { TodoTable, todoTableInsertSchema } from "../../db/schema/todo";
 import { eq } from "drizzle-orm";
 
+import { zValidator } from '../middleware/validator'
+import { insertSchema } from "./schema";
+
 export const todo = new Hono()
   .get("/", async (c) => {
     const todos = await db
@@ -11,8 +14,8 @@ export const todo = new Hono()
 
     return c.json(todos, 200);
   })
-  .post("/", async (c) => {
-    const json = await c.req.json();
+  .post("/", zValidator("json", insertSchema), async (c) => {
+    const json = c.req.valid("json");
 
     const todo = await db
      .insert(TodoTable)

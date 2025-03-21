@@ -2,7 +2,7 @@ import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createSelectSchema, createInsertSchema, createUpdateSchema } from 'drizzle-zod';
 
 export const TodoTable = sqliteTable("Todo", {
-  id: int("id").primaryKey({autoIncrement: true}),
+  id: int("id").primaryKey({autoIncrement: true}).unique(),
   title: text("title").notNull(),
   description: text("description"),
   completed: int("completed", {mode: "boolean"}).notNull().default(false),

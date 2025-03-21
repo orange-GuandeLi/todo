@@ -15,6 +15,20 @@
       "when": 1742532345664,
       "tag": "0001_brainy_betty_ross",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1742536259391,
+      "tag": "0002_odd_red_skull",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1742536301476,
+      "tag": "0003_redundant_wendell_rand",
+      "breakpoints": true
     }
   ]
 }

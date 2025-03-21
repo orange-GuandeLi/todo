@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { todo } from "./todo/router";
 import { ZodError } from "zod";
+import { FormatZodError } from "./util";
 
 export const app = new Hono()
   .notFound((c) => {
@@ -8,7 +9,7 @@ export const app = new Hono()
   })
   .onError((err, c) => {
     if (err instanceof ZodError) {
-      return c.json(err.issues.map(issue => `[${issue.path.join(", ")}]: ${issue.message}`).join(", "), 400);
+      return c.text(FormatZodError(err), 400);
     }
 
     if (err instanceof Error) {
