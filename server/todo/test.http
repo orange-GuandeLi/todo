@@ -11,9 +11,9 @@ POST {{BaseURL}}/todo
 Content-Type: application/json
 
 {
-    "title": "这是一个测试",
-    "description": "这是一个测试",
-    "completed": false
+  "title": "这是两个测试",
+  "description": "这是一个测试",
+  "completed": false
 }
 
 ### 删除一个todo

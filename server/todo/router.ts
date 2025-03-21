@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { db } from "../../db";
-import { TodoTable } from "../../db/schema/todo";
+import { TodoTable, todoTableInsertSchema } from "../../db/schema/todo";
 import { eq } from "drizzle-orm";
 
 export const todo = new Hono()
@@ -12,14 +12,11 @@ export const todo = new Hono()
     return c.json(todos, 200);
   })
   .post("/", async (c) => {
-    const { title, completed } = await c.req.json();
+    const json = await c.req.json();
 
     const todo = await db
      .insert(TodoTable)
-     .values({
-       title,
-       completed,
-     })
+     .values(todoTableInsertSchema.parse(json))
      .returning()
      .then(res => res[0]);
 

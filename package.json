@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "drizzle-orm": "^0.40.1",
-    "hono": "^4.7.5"
+    "drizzle-zod": "^0.7.0",
+    "hono": "^4.7.5",
+    "zod": "^3.24.2"
   }
 }
