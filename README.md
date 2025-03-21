@@ -1,15 +1,21 @@
 # todo
 
-To install dependencies:
+> Bun + Hono + SQLite3 + Zod
 
+### run
+#### create .env file in the root folder
 ```bash
-bun install
+touch .env
+```
+example:
+```env
+DB_FILE=./db/db.sqlite
+PORT=3000
 ```
 
-To run:
-
 ```bash
-bun run index.ts
+cd client
+make build
+cd ../server
+make
 ```
-
-This project was created using `bun init` in bun v1.2.5. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
