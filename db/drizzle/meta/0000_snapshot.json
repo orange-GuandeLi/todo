@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "fe94c978-05b0-4086-bfa1-c65e7db5c45e",
+  "id": "bda9090b-e6d1-40be-98e2-0d9071f715e5",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "Todo": {
@@ -42,7 +42,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-03-21T04:33:29.189Z\"'"
+          "default": "'\"2025-03-23T13:29:19.849Z\"'"
         },
         "updated_at": {
           "name": "updated_at",
@@ -50,10 +50,18 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-03-21T04:33:29.189Z\"'"
+          "default": "'\"2025-03-23T13:29:19.849Z\"'"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "Todo_id_unique": {
+          "name": "Todo_id_unique",
+          "columns": [
+            "id"
+          ],
+          "isUnique": true
+        }
+      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},

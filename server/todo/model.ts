@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { db } from "../../db";
 import { TodoTable, todoTableInsertSchema, todoTableUpdateSchema } from "../../db/schema/todo";
 import type { TodoModel } from "./interface";
@@ -6,7 +6,7 @@ import { IDSchema } from "./schema";
 
 export const todoModel: TodoModel = {
   getAll: async () => {
-    return await db.select().from(TodoTable);
+    return await db.select().from(TodoTable).orderBy(desc(TodoTable.updatedAt));
   },
   insert: async (todo) => {
     return await db.insert(TodoTable).values(todoTableInsertSchema.parse(todo)).returning().then(res => res[0]);

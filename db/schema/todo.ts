@@ -7,8 +7,8 @@ export const TodoTable = sqliteTable("Todo", {
   title: text("title").notNull(),
   description: text("description"),
   completed: int("completed", {mode: "boolean"}).notNull().default(false),
-  createdAt: int("created_at", {mode: "timestamp"}).notNull().default(new Date()),
-  updatedAt: int("updated_at", {mode: "timestamp"}).notNull().default(new Date()).$onUpdate(() => new Date()),
+  createdAt: int("created_at", {mode: "timestamp_ms"}).notNull().default(new Date()),
+  updatedAt: int("updated_at", {mode: "timestamp_ms"}).notNull().default(new Date()).$onUpdate(() => new Date()),
 });
 
 export const todoTableSelectSchema = createSelectSchema(TodoTable, {
