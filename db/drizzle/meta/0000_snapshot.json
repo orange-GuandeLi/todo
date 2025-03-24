@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "bda9090b-e6d1-40be-98e2-0d9071f715e5",
+  "id": "1dbe6041-e898-45bb-8d24-e6baf70df491",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "Todo": {
@@ -42,7 +42,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-03-23T13:29:19.849Z\"'"
+          "default": "(unixepoch())"
         },
         "updated_at": {
           "name": "updated_at",
@@ -50,7 +50,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-03-23T13:29:19.849Z\"'"
+          "default": "(unixepoch())"
         }
       },
       "indexes": {

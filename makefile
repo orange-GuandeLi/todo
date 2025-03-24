@@ -9,3 +9,13 @@ db-m:
 
 test:
 	bun test
+
+build-c:
+	cd client && make build && cd ..
+
+prod:
+	bun i
+	make db-g
+	make db-m
+	make build-c
+	make

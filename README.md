@@ -14,9 +14,7 @@ DB_FILE=./db/db.sqlite
 PORT=3000
 ```
 
+
 ```bash
-cd client
-make build
-cd ../server
-make
+make prod
 ```
