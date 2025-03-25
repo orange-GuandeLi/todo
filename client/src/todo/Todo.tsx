@@ -17,7 +17,7 @@ export function Todo() {
     <Inserting />
 
     {
-      unCompleted?.length ? undefined : <li className="px-4 py-2 bg-white/30 w-fit rounded font-bold my-4">No Data Found</li>
+      getAllTodos.data?.length ? undefined : <li className="px-4 py-2 bg-white/30 w-fit rounded font-bold my-4">No Data Found</li>
     }
 
     {
