@@ -1,6 +1,6 @@
 import { Todo } from "@server/todo/type";
-import { updateTodoMutation } from "../../api";
 import { useQueryClient } from "@tanstack/react-query";
+import { updateTodoMutation } from "../api";
 
 export function TodoItem(todo: Todo) {
   const { id, completed, title } = todo;

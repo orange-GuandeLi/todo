@@ -7,8 +7,8 @@ export const mockTodos: Todo[] = [
     title: "todo1",
     description: "todo1",
     completed: false,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   }
 ]
 
@@ -22,8 +22,8 @@ export const mockTodoModel: TodoModel = {
       description: null,
       completed: false,
       id: mockTodos.length + 1,
-      createdAt: new Date(),
-      updatedAt: new Date()
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     }
 
     mockTodos.push(todo);

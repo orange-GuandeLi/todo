@@ -1,6 +1,6 @@
-import { insertTodoMutation } from "@src/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { insertTodoMutation } from "../api";
 
 export function Insert() {
   const [inputStr, setInputStr] = useState("");

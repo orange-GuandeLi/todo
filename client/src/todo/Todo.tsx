@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllTodosQueryOption } from "../api";
 import { TodoItem } from "./components/TodoItem";
 import { Inserting } from "./components/Inserting";
 import { Loading } from "./components/Loading";
@@ -7,6 +6,7 @@ import { Error } from "./components/Error";
 import { Insert } from "./components/Insert";
 import { Header } from "./components/Header";
 import { PartitionArray } from "@src/util";
+import { getAllTodosQueryOption } from "./api";
 
 export function Todo() {
   const getAllTodos = useQuery(getAllTodosQueryOption);

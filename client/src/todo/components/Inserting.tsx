@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { insertingTodoQueryOption } from "@src/api"
+import { insertingTodoQueryOption } from "../api";
 
 export function Inserting() {
   const insertingTodo = useQuery(insertingTodoQueryOption)

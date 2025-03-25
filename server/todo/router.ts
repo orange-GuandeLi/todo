@@ -18,7 +18,7 @@ export const todo = (model: TodoModel) => new Hono()
     }
     return c.json(todo, 201);
   })
-  .delete("/:id", zValidator("param", IDSchema), async (c) => {
+  .delete("/:id{[0-9]+}", zValidator("param", IDSchema), async (c) => {
     const id = c.req.valid("param");
     const todo = await model.deleteByID(id)
     if (!todo) {
@@ -27,7 +27,7 @@ export const todo = (model: TodoModel) => new Hono()
 
     return c.json(todo, 200);
   })
-  .put("/:id", zValidator("param", IDSchema), zValidator("json", UpdateSchema) , async (c) => {
+  .put("/:id{[0-9]+}", zValidator("param", IDSchema), zValidator("json", UpdateSchema) , async (c) => {
     const id = c.req.valid("param");
     const json = c.req.valid("json");
     const todo = await model.updateByID(id, json)
