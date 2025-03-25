@@ -14,6 +14,8 @@ export const TodoTable = sqliteTable("Todo", {
 
 export const todoTableSelectSchema = createSelectSchema(TodoTable, {
   id: z.coerce.number().int().positive(),
+  createdAt: z.string(),
+  updatedAt: z.string()
 });
 export const todoTableInsertSchema = createInsertSchema(TodoTable);
 export const todoTableUpdateSchema = createUpdateSchema(TodoTable);
