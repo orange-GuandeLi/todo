@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite'
+import path from "path"
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
@@ -8,10 +9,16 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: "https://008d-222-247-155-79.ngrok-free.app",
+        target: "https://183e-222-247-141-247.ngrok-free.app",
         changeOrigin: true,
         secure: false,
       }
+    }
+  },
+  resolve: {
+    alias: {
+      "@server": path.resolve(__dirname, "../server"),
+      "@src": path.resolve(__dirname, "./src"),
     }
   }
 })

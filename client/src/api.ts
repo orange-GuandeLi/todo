@@ -1,8 +1,8 @@
 import { hc } from "hono/client";
-import { ApiRoute } from "../../server/app"
+import { ApiRoute } from "@server/app"
 import { QueryClient, queryOptions, useMutation } from "@tanstack/react-query";
-import { ID, Insert, Update } from "../../server/todo/type";
-import { IDSchema, insertSchema, UpdateSchema } from "../../server/todo/schema";
+import { ID, Insert, Update } from "@server/todo/type";
+import { IDSchema, insertSchema, UpdateSchema } from "@server/todo/schema";
 
 const api = hc<ApiRoute>("/").api;
 
@@ -72,10 +72,6 @@ export const updateTodoMutation = (queryClient: QueryClient) =>
     },
     onSuccess: async (data) => {
       const oldTodos = await queryClient.ensureQueryData(getAllTodosQueryOption)
-      const t = oldTodos.find(todo => todo.id == data.id)
-      if (t) {
-        Object.assign(t, data)
-        queryClient.setQueryData(getAllTodosQueryOption.queryKey, oldTodos.sort((a,b) => a.updatedAt > b.updatedAt ? -1 : 1))
-      }
+      queryClient.setQueryData(getAllTodosQueryOption.queryKey, [data, ...oldTodos.filter(todo => todo.id != data.id)])
     }
   })
