@@ -2,6 +2,7 @@ import { insertSchema, IDSchema, UpdateSchema } from "@server/todo/schema"
 import { Insert, ID, Update } from "@server/todo/type"
 import { api } from "@src/api"
 import { queryOptions, QueryClient, useMutation } from "@tanstack/react-query"
+import { toast } from "react-toastify"
 
 export const getAllTodosQueryOption = queryOptions({
   queryKey: ["getAllTodos"],
@@ -35,6 +36,9 @@ export const insertTodoMutation = (queryClient: QueryClient) => (
     onSuccess: async (data) => {
       const oldTodos = await queryClient.ensureQueryData(getAllTodosQueryOption)
       queryClient.setQueryData(getAllTodosQueryOption.queryKey, [data, ...oldTodos])
+    },
+    onError: (error) => {
+      toast.error(error.message)
     },
     onSettled: () => {
       queryClient.setQueryData(insertingTodoQueryOption.queryKey, {})
@@ -70,5 +74,8 @@ export const updateTodoMutation = (queryClient: QueryClient) =>
     onSuccess: async (data) => {
       const oldTodos = await queryClient.ensureQueryData(getAllTodosQueryOption)
       queryClient.setQueryData(getAllTodosQueryOption.queryKey, [data, ...oldTodos.filter(todo => todo.id != data.id)])
+    },
+    onError: (error) => {
+      toast.error(error.message)
     }
   })

@@ -14,7 +14,7 @@ export const todo = (model: TodoModel) => new Hono()
 
     const todo = await model.insert(json);
     if (!todo) {
-      throw new Error("Faild to insert todo")
+      throw new Error("Faild to insert Todo")
     }
     return c.json(todo, 201);
   })
@@ -22,7 +22,7 @@ export const todo = (model: TodoModel) => new Hono()
     const id = c.req.valid("param");
     const todo = await model.deleteByID(id)
     if (!todo) {
-      throw new Error("Faild to delete todo")
+      throw new Error("Faild to delete Todo")
     }
 
     return c.json(todo, 200);
@@ -32,7 +32,7 @@ export const todo = (model: TodoModel) => new Hono()
     const json = c.req.valid("json");
     const todo = await model.updateByID(id, json)
     if (!todo) {
-      throw new Error("Faild to update todo")
+      throw new Error("Faild to update Todo")
     }
 
     return c.json(todo, 200);
