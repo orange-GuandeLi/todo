@@ -4,9 +4,10 @@ import { zValidator } from '../middleware/validator'
 import { IDSchema, InsertSchema, UpdateSchema } from "./schema";
 import type { TodoModel } from "./interface";
 import { jwt } from "hono/jwt";
+import { Auth } from "../middleware/auth";
 
 export const todo = (model: TodoModel) => new Hono()
-  .use(jwt({ secret: process.env.JWT_SECRET! }))
+  .use(Auth)
   .get("/", async (c) => {
     const todos = await model.getAll();
     return c.json(todos, 200);

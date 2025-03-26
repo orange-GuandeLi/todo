@@ -8,7 +8,8 @@ import { logger } from "hono/logger";
 import { logRemoteAddress } from "./middleware/log-remote-addr";
 import { userModel } from "./user/model";
 import { user } from "./user/router";
-import type { ContentfulStatusCode } from "hono/utils/http-status";
+import { HTTPException } from "hono/http-exception";
+import { tokenModel } from "./token/model";
 
 export const app = new Hono()
   .use(logRemoteAddress)
@@ -17,19 +18,16 @@ export const app = new Hono()
     return c.text("Not Found", 404);
   })
   .onError((err, c) => {
-    let status: ContentfulStatusCode = 400;
-
-    if (Object.hasOwn(err, "status")) {
-      // @ts-ignore
-      status = err.status;
+    if (err instanceof HTTPException) {
+      return c.text(err.message, err.status)
     }
 
     if (err instanceof ZodError) {
-      return c.text(FormatZodError(err), status);
+      return c.text(FormatZodError(err), 400);
     }
 
     if (err instanceof Error) {
-      return c.text(err.message, status);
+      return c.text(err.message, 400);
     }
 
     return c.text("Internal Server Error", 500);
@@ -39,7 +37,7 @@ export const app = new Hono()
 const apiRoute = app
   .basePath("/api")
   .route("/todo", todo(todoModel))
-  .route("/user", user(userModel))
+  .route("/user", user(userModel, tokenModel))
   .get("/ping", (c) => c.text("pong"));
 
 export type ApiRoute = typeof apiRoute;

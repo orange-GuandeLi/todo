@@ -1,4 +1,4 @@
-CREATE TABLE `Todo` (
+CREATE TABLE `TodoTabel` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`title` text NOT NULL,
 	`description` text,
@@ -9,7 +9,18 @@ CREATE TABLE `Todo` (
 	FOREIGN KEY (`userID`) REFERENCES `UserTable`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `Todo_id_unique` ON `Todo` (`id`);--> statement-breakpoint
+CREATE UNIQUE INDEX `TodoTabel_id_unique` ON `TodoTabel` (`id`);--> statement-breakpoint
+CREATE TABLE `TokenTable` (
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`content` text NOT NULL,
+	`expired` integer DEFAULT false NOT NULL,
+	`createdAt` integer DEFAULT (unixepoch()) NOT NULL,
+	`updatedAt` integer DEFAULT (unixepoch()) NOT NULL,
+	`userID` integer NOT NULL,
+	FOREIGN KEY (`userID`) REFERENCES `UserTable`(`id`) ON UPDATE no action ON DELETE no action
+);
+--> statement-breakpoint
+CREATE UNIQUE INDEX `TokenTable_id_unique` ON `TokenTable` (`id`);--> statement-breakpoint
 CREATE TABLE `UserTable` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`email` text NOT NULL,

@@ -4,7 +4,7 @@ import { createSelectSchema, createInsertSchema, createUpdateSchema } from 'driz
 import { z } from "zod";
 import { UserTable } from "./user";
 
-export const TodoTable = sqliteTable("Todo", {
+export const TodoTable = sqliteTable("TodoTabel", {
   id: int("id").primaryKey({autoIncrement: true}).unique(),
   title: text("title").notNull(),
   description: text("description"),

@@ -1,11 +1,11 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "72527c02-5be9-4208-ad6a-798c28dadc61",
+  "id": "61360ded-93f5-45f9-8171-894f692b6f8e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "Todo": {
-      "name": "Todo",
+    "TodoTabel": {
+      "name": "TodoTabel",
       "columns": {
         "id": {
           "name": "id",
@@ -61,8 +61,8 @@
         }
       },
       "indexes": {
-        "Todo_id_unique": {
-          "name": "Todo_id_unique",
+        "TodoTabel_id_unique": {
+          "name": "TodoTabel_id_unique",
           "columns": [
             "id"
           ],
@@ -70,9 +70,86 @@
         }
       },
       "foreignKeys": {
-        "Todo_userID_UserTable_id_fk": {
-          "name": "Todo_userID_UserTable_id_fk",
-          "tableFrom": "Todo",
+        "TodoTabel_userID_UserTable_id_fk": {
+          "name": "TodoTabel_userID_UserTable_id_fk",
+          "tableFrom": "TodoTabel",
+          "tableTo": "UserTable",
+          "columnsFrom": [
+            "userID"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "TokenTable": {
+      "name": "TokenTable",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "expired": {
+          "name": "expired",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        },
+        "userID": {
+          "name": "userID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "TokenTable_id_unique": {
+          "name": "TokenTable_id_unique",
+          "columns": [
+            "id"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "TokenTable_userID_UserTable_id_fk": {
+          "name": "TokenTable_userID_UserTable_id_fk",
+          "tableFrom": "TokenTable",
           "tableTo": "UserTable",
           "columnsFrom": [
             "userID"
