@@ -1,10 +1,10 @@
 import type { z } from "zod";
-import type { todoTableSelectSchema } from "../../db/schema/todo";
-import type { IDSchema, insertSchema, UpdateSchema } from "./schema";
+import type { TodoTableSelectSchema } from "../../db/schema/todo";
+import type { IDSchema, InsertSchema, UpdateSchema } from "./schema";
 
-export type Todo = z.infer<typeof todoTableSelectSchema>;
+export type Todo = z.infer<typeof TodoTableSelectSchema>;
 
-export type Insert = z.infer<typeof insertSchema>;
+export type Insert = z.infer<typeof InsertSchema>;
 
 export type ID = z.infer<typeof IDSchema>;
 

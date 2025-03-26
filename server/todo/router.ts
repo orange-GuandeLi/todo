@@ -1,15 +1,17 @@
 import { Hono } from "hono";
 
 import { zValidator } from '../middleware/validator'
-import { IDSchema, insertSchema, UpdateSchema } from "./schema";
+import { IDSchema, InsertSchema, UpdateSchema } from "./schema";
 import type { TodoModel } from "./interface";
+import { jwt } from "hono/jwt";
 
 export const todo = (model: TodoModel) => new Hono()
+  .use(jwt({ secret: process.env.JWT_SECRET! }))
   .get("/", async (c) => {
     const todos = await model.getAll();
     return c.json(todos, 200);
   })
-  .post("/", zValidator("json", insertSchema), async (c) => {
+  .post("/", zValidator("json", InsertSchema), async (c) => {
     const json = c.req.valid("json");
 
     const todo = await model.insert(json);

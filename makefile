@@ -7,6 +7,8 @@ db-g:
 db-m:
 	bun db/migrate.ts
 
+db: db-g db-m
+
 test:
 	bun test
 

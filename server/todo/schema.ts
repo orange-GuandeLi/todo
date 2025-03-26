@@ -1,16 +1,16 @@
-import { todoTableInsertSchema, todoTableSelectSchema, todoTableUpdateSchema } from "../../db/schema/todo";
+import { TodoTableInsertSchema, TodoTableSelectSchema, TodoTableUpdateSchema } from "../../db/schema/todo";
 
-export const insertSchema = todoTableInsertSchema.pick({
+export const InsertSchema = TodoTableInsertSchema.pick({
   title: true,
   description: true,
   completed: true,
 })
 
-export const IDSchema = todoTableSelectSchema.pick({
+export const IDSchema = TodoTableSelectSchema.pick({
   id: true
 })
 
-export const UpdateSchema = todoTableUpdateSchema.pick({
+export const UpdateSchema = TodoTableUpdateSchema.pick({
   title: true,
   description: true,
   completed: true,

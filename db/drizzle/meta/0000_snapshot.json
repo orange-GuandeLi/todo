@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "1dbe6041-e898-45bb-8d24-e6baf70df491",
+  "id": "72527c02-5be9-4208-ad6a-798c28dadc61",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "Todo": {
@@ -36,16 +36,92 @@
           "autoincrement": false,
           "default": false
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
           "default": "(unixepoch())"
         },
-        "updated_at": {
-          "name": "updated_at",
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        },
+        "userID": {
+          "name": "userID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "Todo_id_unique": {
+          "name": "Todo_id_unique",
+          "columns": [
+            "id"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "Todo_userID_UserTable_id_fk": {
+          "name": "Todo_userID_UserTable_id_fk",
+          "tableFrom": "Todo",
+          "tableTo": "UserTable",
+          "columnsFrom": [
+            "userID"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "UserTable": {
+      "name": "UserTable",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "password": {
+          "name": "password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -54,10 +130,24 @@
         }
       },
       "indexes": {
-        "Todo_id_unique": {
-          "name": "Todo_id_unique",
+        "UserTable_id_unique": {
+          "name": "UserTable_id_unique",
           "columns": [
             "id"
+          ],
+          "isUnique": true
+        },
+        "UserTable_email_unique": {
+          "name": "UserTable_email_unique",
+          "columns": [
+            "email"
+          ],
+          "isUnique": true
+        },
+        "emailIndex": {
+          "name": "emailIndex",
+          "columns": [
+            "email"
           ],
           "isUnique": true
         }

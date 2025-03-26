@@ -1,13 +1,16 @@
 @BaseURL=http://localhost:3000/api
+@Auth=Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoxNzQyOTY2MTczfQ._8AIQ5E8dqDWbvaRMPbsbmNni5ytEI1BntaiAd8hZMQ
 
 ### 心跳检测
 GET {{BaseURL}}/ping
 
 ### 获取所有todo
 GET {{BaseURL}}/todo
+{{Auth}}
 
 ### 新建一个todo
 POST {{BaseURL}}/todo
+{{Auth}}
 Content-Type: application/json
 
 {
