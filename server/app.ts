@@ -4,8 +4,12 @@ import { ZodError } from "zod";
 import { FormatZodError } from "./util";
 import { serveStatic } from "hono/bun";
 import { todoModel } from "./todo/model";
+import { logger } from "hono/logger";
+import { logRemoteAddress } from "./middleware/log-remote-addr";
 
 export const app = new Hono()
+  .use(logRemoteAddress)
+  .use(logger())
   .notFound((c) => {
     return c.text("Not Found", 404);
   })
