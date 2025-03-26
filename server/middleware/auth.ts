@@ -1,7 +1,7 @@
 import { getCookie } from "hono/cookie";
 import { createMiddleware } from "hono/factory";
-import { verify } from "hono/jwt";
 import { tokenModel } from "../token/model";
+import { verify } from "hono/jwt";
 
 export const Auth = createMiddleware(async (c, next) => {
   const token = getCookie(c, "token") || c.req.header("Authorization")?.split(" ")[1];
@@ -22,8 +22,11 @@ export const Auth = createMiddleware(async (c, next) => {
 
   try {
     const payload = await verify(token, process.env.JWT_SECRET!)
-    c.set("user", payload)
+    
+    const body = await c.req.json()
 
+    const newBody = { ...body, userID: payload.userID };
+    
     await next()
   } catch (err) {
     return c.text("Invalid token", 401)

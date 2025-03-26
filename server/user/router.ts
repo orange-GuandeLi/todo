@@ -44,7 +44,7 @@ export const user = (model: UserModel, tokenModel: TokenModel) =>
     }
 
     const token = await sign({
-      id: user.id,
+      userID: user.id,
       exp: Math.floor(Date.now() / 1000) + 60 * 60
     }, process.env.JWT_SECRET!)
 

@@ -7,4 +7,8 @@ export const InsertSchema = UserTableInsertSchema.pick({
 
 export const EmailSchema = UserTableSelectSchema.pick({
   email: true,
-})
+});
+
+export const IDSchema = UserTableSelectSchema.pick({
+  id: true,
+});
