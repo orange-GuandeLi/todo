@@ -1,0 +1,11 @@
+@BaseURL=http://localhost:3000/api
+@Auth=Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjcsImV4cCI6MTc0MzY2ODUyOH0.0hECMVHX6YZJZKUB39qMl2wawEGtPkltWtArDnJbkjs
+
+### 登录
+POST {{BaseURL}}/auth/signIn
+Content-Type: application/json
+
+{
+  "email": "test7@test.com",
+  "password": "12345678"
+}

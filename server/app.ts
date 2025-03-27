@@ -1,15 +1,14 @@
 import { Hono } from "hono";
-import { todo } from "./todo/router";
 import { ZodError } from "zod";
 import { FormatZodError } from "./util";
 import { serveStatic } from "hono/bun";
-import { todoModel } from "./todo/model";
 import { logger } from "hono/logger";
 import { logRemoteAddress } from "./middleware/log-remote-addr";
 import { userModel } from "./user/model";
 import { user } from "./user/router";
 import { HTTPException } from "hono/http-exception";
-import { tokenModel } from "./token/model";
+import { auth } from "./auth/router";
+import { tokenModel } from "./auth/model";
 
 export const app = new Hono()
   .use(logRemoteAddress)
@@ -36,6 +35,7 @@ export const app = new Hono()
 
 const apiRoute = app
   .basePath("/api")
+  .route("/auth", auth(userModel, tokenModel))
   // .route("/todo", todo(todoModel))
   .route("/user", user(userModel))
   .get("/ping", (c) => c.text("pong"));

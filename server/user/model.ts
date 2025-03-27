@@ -1,20 +1,22 @@
 import { db } from "@db/index";
 import type { UserModel } from "./interface";
-import { UserTable } from "@db/schema/user";
-import { InsertUserSchema, SelectUserSchema } from "./schema";
+import { UserTable, UserTableInsertSchema } from "@db/schema/user";
+import { eq } from "drizzle-orm";
+import { UserEmailSchema } from "./schema";
 
 export const userModel: UserModel = {
-  insert: async (insert) => {
-    const res = await db
+  insertOne: async (insert) => {
+    return await db
       .insert(UserTable)
-      .values(InsertUserSchema.parse(insert))
+      .values(UserTableInsertSchema.parse(insert))
       .returning()
+      .then(r => r[0]);
+  },
+  findOneByEmail: async (email) => {
+    return await db
+      .select()
+      .from(UserTable)
+      .where(eq(UserTable.email, UserEmailSchema.parse(email).email))
       .then(r => r[0])
-    
-    if (!res) {
-      return;
-    }
-
-    return SelectUserSchema.parse(res)
   }
 }

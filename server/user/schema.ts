@@ -1,10 +1,5 @@
-import { UserTableInsertSchema, UserTableSelectSchema } from "@db/schema/user";
+import { UserTableSelectSchema } from "@db/schema/user";
 
-export const SelectUserSchema = UserTableSelectSchema.omit({
-  password: true,
-});
-
-export const InsertUserSchema = UserTableInsertSchema.pick({
-  email: true,
-  password: true,
+export const UserEmailSchema = UserTableSelectSchema.pick({
+  email: true
 });
