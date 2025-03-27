@@ -1,15 +1,15 @@
-import { UserTableSelectSchema } from "@db/schema/user";
-import { zValidator } from "@middleware/validator";
 import { Hono } from "hono";
 import { setCookie } from "hono/cookie";
+import { HTTPException } from "hono/http-exception";
 import { sign } from "hono/jwt";
 import type { CookieOptions } from "hono/utils/cookie";
 import type { JWTPayload } from "hono/utils/jwt/types";
-import type { JwtPayload } from "server/type";
-import type { UserModel } from "server/user/interface";
+import { UserTableSelectSchema } from "../../db/schema/user";
+import type { JwtPayload } from "../type";
+import type { UserModel } from "../user/interface";
+import { GetTokenFromContext } from "../util";
 import type { TokenModel } from "./interface";
-import { GetTokenFromContext } from "server/util";
-import { HTTPException } from "hono/http-exception";
+import { zValidator } from "../middleware/validator";
 
 const SignInSchema = UserTableSelectSchema.pick({
   email: true,

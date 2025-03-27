@@ -1,29 +1,13 @@
-import { Auth } from "@middleware/auth";
 import { Hono } from "hono";
-import type { JwtPayload } from "server/type";
+import { Auth } from "../middleware/auth";
+import type { JwtPayload } from "../type";
 import type { TodoModel } from "./interface";
-import { TodoTableInsertSchema, TodoTableSelectSchema, TodoTableUpdateSchema } from "@db/schema/todo";
-import { zValidator } from "@middleware/validator";
+import { InsertTodoSchema, UpdateTodoSchema, TodoIDSchema } from "./schema";
+import { zValidator } from "../middleware/validator";
 
 type Variables = {
   jwtPayload: JwtPayload;
 }
-
-const InsertTodoSchema = TodoTableInsertSchema.pick({
-  title: true,
-  description: true,
-  completed: true,
-});
-
-const UpdateTodoSchema = TodoTableUpdateSchema.pick({
-  title: true,
-  description: true,
-  completed: true,
-});
-
-const TodoIDSchema = TodoTableSelectSchema.pick({
-  id: true,
-})
 
 export const todo = (todoModel: TodoModel) => new Hono<{ Variables: Variables }>()
   .use(Auth)

@@ -1,6 +1,6 @@
-import type { TodoTableInsertSchema, TodoTableSelectSchema, TodoTableUpdateSchema } from "@db/schema/todo";
 import type { z } from "zod"
 import type { UserIDSchema } from "./schema";
+import type { TodoTableSelectSchema, TodoTableInsertSchema, TodoTableUpdateSchema } from "../../db/schema/todo";
 
 type TodoTableSelect = z.infer<typeof TodoTableSelectSchema>;
 

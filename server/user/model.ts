@@ -1,7 +1,7 @@
-import { db } from "@db/index";
-import type { UserModel } from "./interface";
-import { UserTable, UserTableInsertSchema } from "@db/schema/user";
 import { eq } from "drizzle-orm";
+import { db } from "../../db";
+import { UserTable, UserTableInsertSchema } from "../../db/schema/user";
+import type { UserModel } from "./interface";
 import { UserEmailSchema } from "./schema";
 
 export const userModel: UserModel = {

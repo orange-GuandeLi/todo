@@ -1,8 +1,7 @@
+import { UserTableInsertSchema, UserTableSelectSchema } from "../../db/schema/user";
+import { zValidator } from "../middleware/validator";
 import type { UserModel } from "./interface";
 import { Hono } from "hono";
-import { zValidator } from "@middleware/validator";
-
-import { UserTableInsertSchema, UserTableSelectSchema } from "@db/schema/user";
 
 const InsertUserSchema = UserTableInsertSchema.pick({
   email: true,

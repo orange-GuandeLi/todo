@@ -1,6 +1,6 @@
 import type { z } from "zod";
-import { UserTableSelectSchema, type UserTableInsertSchema } from "@db/schema/user";
 import type { UserEmailSchema } from "./schema";
+import type { UserTableInsertSchema, UserTableSelectSchema } from "../../db/schema/user";
 
 type UserTableInsert = z.infer<typeof UserTableInsertSchema>;
 

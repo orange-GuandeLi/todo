@@ -1,8 +1,7 @@
-import { getCookie } from "hono/cookie";
 import { createMiddleware } from "hono/factory";
 import { verify } from "hono/jwt";
-import { tokenModel } from "server/auth/model";
-import { GetTokenFromContext } from "server/util";
+import { tokenModel } from "../auth/model";
+import { GetTokenFromContext } from "../util";
 
 export const Auth = createMiddleware(async (c, next) => {
   const token = GetTokenFromContext(c);

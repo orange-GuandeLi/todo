@@ -1,6 +1,6 @@
-import { TokenTableSelectSchema, type TokenTableInsertSchema } from "@db/schema/token"
 import { z } from "zod"
 import type { TokenSchema } from "./schema";
+import type { TokenTableInsertSchema, TokenTableSelectSchema } from "../../db/schema/token";
 
 type TokenTableInsert = z.infer<typeof TokenTableInsertSchema>;
 

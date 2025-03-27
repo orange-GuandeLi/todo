@@ -1,4 +1,4 @@
-import { UserTableSelectSchema } from "@db/schema/user";
+import { UserTableSelectSchema } from "../../db/schema/user";
 
 export const UserEmailSchema = UserTableSelectSchema.pick({
   email: true

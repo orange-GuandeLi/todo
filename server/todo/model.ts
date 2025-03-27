@@ -1,8 +1,8 @@
-import { db } from "@db/index";
 import type { TodoModel } from "./interface";
-import { TodoTable, TodoTableInsertSchema, TodoTableUpdateSchema } from "@db/schema/todo";
 import { and, desc, eq } from "drizzle-orm";
 import { UserIDSchema } from "./schema";
+import { TodoTable, TodoTableInsertSchema, TodoTableUpdateSchema } from "../../db/schema/todo";
+import { db } from "../../db";
 
 export const todoModel: TodoModel = {
   findManyByUser: async (userID) => {
