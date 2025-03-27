@@ -1,16 +1,10 @@
-import { Hono } from "hono";
-import { zValidator } from "../middleware/validator";
-import { InsertSchema } from "./schema";
-import type { UserModel } from "./interface";
-import { sign } from "hono/jwt";
-import { userModel } from "./model";
-import { password } from "bun";
-import { getCookie, setCookie } from "hono/cookie";
-import { Auth } from "../middleware/auth";
 import type { CookieOptions } from "hono/utils/cookie";
-import type { TokenModel } from "../token/interface";
-import type { JwtPayload } from "../type";
-import type { JWTPayload } from "hono/utils/jwt/types";
+import type { UserModel } from "./interface";
+import { Hono } from "hono";
+import { zValidator } from "@middleware/validator";
+import { InsertUserSchema } from "./schema";
+import { password } from "bun";
+
 
 const cookipOption: CookieOptions = {
   httpOnly: true,
@@ -18,13 +12,13 @@ const cookipOption: CookieOptions = {
   sameSite: "Strict",
   maxAge: 60 * 60,
   path: "/",
-  signingSecret: process.env.JWT_SECRET
+  signingSecret: process.env.JWT_SECRET,
 }
 
-export const user = (model: UserModel, tokenModel: TokenModel) => new Hono()
-  .post("/sign-up", zValidator("json", InsertSchema), async (c) => {
+export const user = (model: UserModel) => new Hono()
+  .post("/", zValidator("json", InsertUserSchema), async (c) => {
     const insert = c.req.valid("json");
-    insert.password = await password.hash(insert.password)
+    insert.password = await password.hash(insert.password);
 
     const res = await model.insert(insert);
     if (!res) {
@@ -33,40 +27,51 @@ export const user = (model: UserModel, tokenModel: TokenModel) => new Hono()
 
     return c.json(res, 201)
   })
-  .post("/sign-in", zValidator("json", InsertSchema), async (c) => {
-    const json = c.req.valid("json");
-    const user = await userModel.findOneByEmail(json)
-    if (!user) {
-      throw new Error(`User with email ${ json.email } was not found`);
-    }
+  // .post("/sign-up", zValidator("json", InsertSchema), async (c) => {
+  //   const insert = c.req.valid("json");
+  //   insert.password = await password.hash(insert.password)
 
-    if (!await password.verify(json.password, user.password)) {
-      throw new Error(`Password not match`)
-    }
+  //   const res = await model.insert(insert);
+  //   if (!res) {
+  //     throw new Error("Faild to insert User")
+  //   }
 
-    const jwtPayload: JwtPayload = {
-      userID: user.id,
-      exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7
-    }
-    const token = await sign(jwtPayload as JWTPayload, process.env.JWT_SECRET!)
+  //   return c.json(res, 201)
+  // })
+  // .post("/sign-in", zValidator("json", InsertSchema), async (c) => {
+  //   const json = c.req.valid("json");
+  //   const user = await userModel.findOneByEmail(json)
+  //   if (!user) {
+  //     throw new Error(`User with email ${ json.email } was not found`);
+  //   }
 
-    const insertTokenRes = await tokenModel.insert({content: token, userID: user.id})
-    if (!insertTokenRes) {
-      throw new Error("Faild to insert Token")
-    }
+  //   if (!await password.verify(json.password, user.password)) {
+  //     throw new Error(`Password not match`)
+  //   }
 
-    setCookie(c, "token", token, cookipOption)
+  //   const jwtPayload: JwtPayload = {
+  //     userID: user.id,
+  //     exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7
+  //   }
+  //   const token = await sign(jwtPayload as JWTPayload, process.env.JWT_SECRET!)
 
-    return c.json({
-      user,
-    }, 200)
-  })
-  .put("/sign-out", Auth, (c) => {
-    const token = getCookie(c, "token");
+  //   const insertTokenRes = await tokenModel.insert({content: token, userID: user.id})
+  //   if (!insertTokenRes) {
+  //     throw new Error("Faild to insert Token")
+  //   }
+
+  //   setCookie(c, "token", token, cookipOption)
+
+  //   return c.json({
+  //     user,
+  //   }, 200)
+  // })
+  // .put("/sign-out", Auth, (c) => {
+  //   const token = getCookie(c, "token");
     
-    tokenModel.updateOneByContent({content: token!}, { expired: true });
+  //   tokenModel.updateOneByContent({content: token!}, { expired: true });
 
-    setCookie(c, "token", "", cookipOption);
+  //   setCookie(c, "token", "", cookipOption);
 
-    return c.body(null, 204);
-  })
+  //   return c.body(null, 204);
+  // })

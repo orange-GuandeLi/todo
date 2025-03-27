@@ -1,22 +1,10 @@
 @BaseURL=http://localhost:3000/api
 
-### Sign Up
-POST {{BaseURL}}/user/sign-up
+### 新建用户
+POST {{BaseURL}}/user
 Content-Type: application/json
 
 {
-  "email": "test1@test.com",
+  "email": "test4@test.com",
   "password": "12345678"
 }
-
-### Sign In
-POST {{BaseURL}}/user/sign-in
-Content-Type: application/json
-
-{
-  "email": "test1@test.com",
-  "password": "12345678"
-}
-
-### Sign out
-PUT {{BaseURL}}/user/sign-out

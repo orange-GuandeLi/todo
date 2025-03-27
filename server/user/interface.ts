@@ -1,6 +1,5 @@
-import type { Email, Insert, User } from "./type";
+import type { InsertUser, SelectUser } from "./type";
 
 export interface UserModel {
-  insert: (insert: Insert) => Promise<User | undefined>;
-  findOneByEmail: (email: Email) => Promise<User | undefined>;
+  insert: (insert: InsertUser) => Promise<SelectUser | undefined>
 }

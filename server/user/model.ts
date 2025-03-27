@@ -1,22 +1,20 @@
-import { eq } from "drizzle-orm";
-import { db } from "../../db";
-import { UserTable } from "../../db/schema/user";
+import { db } from "@db/index";
 import type { UserModel } from "./interface";
-import { EmailSchema, InsertSchema } from "./schema";
-
-function formatUserData(users: typeof UserTable.$inferSelect[]) {
-  return users.map(user => ({
-    ...user,
-    createdAt: user.createdAt.toISOString(),
-    updatedAt: user.updatedAt.toISOString()
-  }))
-}
+import { UserTable } from "@db/schema/user";
+import { InsertUserSchema, SelectUserSchema } from "./schema";
 
 export const userModel: UserModel = {
   insert: async (insert) => {
-    return formatUserData(await db.insert(UserTable).values(InsertSchema.parse(insert)).returning())[0]
-  },
-  findOneByEmail: async (email) => {
-    return formatUserData(await db.select().from(UserTable).where(eq(UserTable.email, EmailSchema.parse(email).email)))[0]
+    const res = await db
+      .insert(UserTable)
+      .values(InsertUserSchema.parse(insert))
+      .returning()
+      .then(r => r[0])
+    
+    if (!res) {
+      return;
+    }
+
+    return SelectUserSchema.parse(res)
   }
 }

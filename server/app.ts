@@ -36,8 +36,8 @@ export const app = new Hono()
 
 const apiRoute = app
   .basePath("/api")
-  .route("/todo", todo(todoModel))
-  .route("/user", user(userModel, tokenModel))
+  // .route("/todo", todo(todoModel))
+  .route("/user", user(userModel))
   .get("/ping", (c) => c.text("pong"));
 
 export type ApiRoute = typeof apiRoute;
