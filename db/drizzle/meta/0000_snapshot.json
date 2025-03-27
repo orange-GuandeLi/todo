@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "61360ded-93f5-45f9-8171-894f692b6f8e",
+  "id": "01a01acd-e22e-40d5-89b7-d212c7ceed57",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "TodoTabel": {
@@ -80,7 +80,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -98,8 +98,8 @@
           "notNull": true,
           "autoincrement": true
         },
-        "content": {
-          "name": "content",
+        "token": {
+          "name": "token",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -144,6 +144,20 @@
             "id"
           ],
           "isUnique": true
+        },
+        "TokenTable_token_unique": {
+          "name": "TokenTable_token_unique",
+          "columns": [
+            "token"
+          ],
+          "isUnique": true
+        },
+        "tokenIndex": {
+          "name": "tokenIndex",
+          "columns": [
+            "token"
+          ],
+          "isUnique": true
         }
       },
       "foreignKeys": {
@@ -157,7 +171,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },

@@ -1,7 +1,6 @@
 import { sql } from "drizzle-orm";
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createSelectSchema, createInsertSchema, createUpdateSchema } from 'drizzle-zod';
-import { z } from "zod";
 import { UserTable } from "./user";
 
 export const TodoTable = sqliteTable("TodoTabel", {
@@ -11,16 +10,9 @@ export const TodoTable = sqliteTable("TodoTabel", {
   completed: int("completed", {mode: "boolean"}).notNull().default(false),
   createdAt: int("createdAt", {mode: "timestamp"}).notNull().default(sql`(unixepoch())`),
   updatedAt: int("updatedAt", {mode: "timestamp"}).notNull().default(sql`(unixepoch())`).$onUpdate(() => new Date()),
-  userID: int("userID").references(() => UserTable.id)
+  userID: int("userID").references(() => UserTable.id, { onDelete: "cascade" }).notNull()
 });
 
-export const TodoTableSelectSchema = createSelectSchema(TodoTable, {
-  id: z.coerce.number().int().positive(),
-  createdAt: z.string(),
-  updatedAt: z.string()
-});
+export const TodoTableSelectSchema = createSelectSchema(TodoTable);
 export const TodoTableInsertSchema = createInsertSchema(TodoTable);
-export const TodoTableUpdateSchema = createUpdateSchema(TodoTable, {
-  userID: z.number().int().positive(),
-  id: z.number().int().positive(),
-});
+export const TodoTableUpdateSchema = createUpdateSchema(TodoTable);

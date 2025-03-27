@@ -1,18 +1,17 @@
 import { sql } from "drizzle-orm";
 import { int, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 import { createSelectSchema, createInsertSchema, createUpdateSchema } from 'drizzle-zod';
-import { z } from "zod";
 import { UserTable } from "./user";
 
 export const TokenTable = sqliteTable("TokenTable", {
   id: int("id").primaryKey({autoIncrement: true}).unique(),
-  content: text("content").notNull().unique(),
+  token: text("token").notNull().unique(),
   expired: int("expired", {mode: "boolean"}).notNull().default(false),
   createdAt: int("createdAt", {mode: "timestamp"}).notNull().default(sql`(unixepoch())`),
   updatedAt: int("updatedAt", {mode: "timestamp"}).notNull().default(sql`(unixepoch())`).$onUpdate(() => new Date()),
-  userID: int("userID").references(() => UserTable.id).notNull()
+  userID: int("userID").references(() => UserTable.id, { onDelete: "cascade" }).notNull()
 }, (table) => [
-  uniqueIndex("contentIndex").on(table.content)
+  uniqueIndex("tokenIndex").on(table.token)
 ]);
 
 export const TokenTableSelectSchema = createSelectSchema(TokenTable);
