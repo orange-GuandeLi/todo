@@ -15,3 +15,8 @@ export const UpdateSchema = TodoTableUpdateSchema.pick({
   description: true,
   completed: true,
 })
+
+export const DeleteSchema = TodoTableUpdateSchema.pick({
+  userID: true,
+  id: true,
+})

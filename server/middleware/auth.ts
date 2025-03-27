@@ -4,9 +4,10 @@ import { tokenModel } from "../token/model";
 import { verify } from "hono/jwt";
 
 export const Auth = createMiddleware(async (c, next) => {
-  const token = getCookie(c, "token") || c.req.header("Authorization")?.split(" ")[1];
+  const authHeader = c.req.header("Authorization")?.split(" ")
+  const token = authHeader?.[1] ?? getCookie(c, "token");
 
-  if (!token) {
+  if (!token || authHeader?.[0] != "Bearer") {
     return c.text("Unauthorized", 401)
   }
 
@@ -22,13 +23,12 @@ export const Auth = createMiddleware(async (c, next) => {
 
   try {
     const payload = await verify(token, process.env.JWT_SECRET!)
-    
-    const body = await c.req.json()
+    console.log(payload);
+    c.set("jwtPayload", payload);
 
-    const newBody = { ...body, userID: payload.userID };
-    
     await next()
   } catch (err) {
+    await tokenModel.updateOneByContent({ content: token }, { expired: true })
     return c.text("Invalid token", 401)
   }
 })

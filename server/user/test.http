@@ -1,12 +1,11 @@
 @BaseURL=http://localhost:3000/api
-@Auth=Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoxNzQyOTkyOTU3fQ.Ao8_4pj-yXK9iQYCLfDTIzkVLgz4Na5yxTbB23keyZc
 
 ### Sign Up
 POST {{BaseURL}}/user/sign-up
 Content-Type: application/json
 
 {
-  "email": "test@test.com",
+  "email": "test1@test.com",
   "password": "12345678"
 }
 
@@ -15,10 +14,9 @@ POST {{BaseURL}}/user/sign-in
 Content-Type: application/json
 
 {
-  "email": "test@test.com",
+  "email": "test1@test.com",
   "password": "12345678"
 }
 
 ### Sign out
 PUT {{BaseURL}}/user/sign-out
-{{Auth}}

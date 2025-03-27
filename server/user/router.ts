@@ -9,6 +9,8 @@ import { getCookie, setCookie } from "hono/cookie";
 import { Auth } from "../middleware/auth";
 import type { CookieOptions } from "hono/utils/cookie";
 import type { TokenModel } from "../token/interface";
+import type { JwtPayload } from "../type";
+import type { JWTPayload } from "hono/utils/jwt/types";
 
 const cookipOption: CookieOptions = {
   httpOnly: true,
@@ -19,8 +21,7 @@ const cookipOption: CookieOptions = {
   signingSecret: process.env.JWT_SECRET
 }
 
-export const user = (model: UserModel, tokenModel: TokenModel) =>
-  new Hono()
+export const user = (model: UserModel, tokenModel: TokenModel) => new Hono()
   .post("/sign-up", zValidator("json", InsertSchema), async (c) => {
     const insert = c.req.valid("json");
     insert.password = await password.hash(insert.password)
@@ -43,10 +44,11 @@ export const user = (model: UserModel, tokenModel: TokenModel) =>
       throw new Error(`Password not match`)
     }
 
-    const token = await sign({
+    const jwtPayload: JwtPayload = {
       userID: user.id,
-      exp: Math.floor(Date.now() / 1000) + 60 * 60
-    }, process.env.JWT_SECRET!)
+      exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7
+    }
+    const token = await sign(jwtPayload as JWTPayload, process.env.JWT_SECRET!)
 
     const insertTokenRes = await tokenModel.insert({content: token, userID: user.id})
     if (!insertTokenRes) {
@@ -62,7 +64,7 @@ export const user = (model: UserModel, tokenModel: TokenModel) =>
   .put("/sign-out", Auth, (c) => {
     const token = getCookie(c, "token");
     
-    tokenModel.updateOneByContent({content: token!});
+    tokenModel.updateOneByContent({content: token!}, { expired: true });
 
     setCookie(c, "token", "", cookipOption);
 

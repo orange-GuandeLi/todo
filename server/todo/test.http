@@ -1,16 +1,17 @@
 @BaseURL=http://localhost:3000/api
-@Auth=Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImV4cCI6MTc0MzAwMDI2MX0.CtwhSedtDnct64VGTJzugbQ0AM1CsjUSBc5dic6Icyw
+@Auth1=Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImV4cCI6MTc0MzY0NjI3MX0.Lfyt-wyfBEazYpykyLpxBVuu1WmkoT03tRkGSWNCkMI
+@Auth2=Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsImV4cCI6MTc0MzY0NjU0N30.vSA8sXGvN6jCu4iG_yuWv9w6o2iseQLGfzBQa3z_rkY
 
 ### 心跳检测
 GET {{BaseURL}}/ping
 
 ### 获取所有todo
 GET {{BaseURL}}/todo
-{{Auth}}
+{{Auth1}}
 
 ### 新建一个todo
 POST {{BaseURL}}/todo
-{{Auth}}
+{{Auth1}}
 Content-Type: application/json
 
 {
@@ -20,7 +21,8 @@ Content-Type: application/json
 }
 
 ### 删除一个todo
-DELETE {{BaseURL}}/todo/100
+DELETE {{BaseURL}}/todo/1
+{{Auth1}}
 
 ### 更新一个todo
 PUT {{BaseURL}}/todo/9

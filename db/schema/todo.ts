@@ -11,7 +11,7 @@ export const TodoTable = sqliteTable("TodoTabel", {
   completed: int("completed", {mode: "boolean"}).notNull().default(false),
   createdAt: int("createdAt", {mode: "timestamp"}).notNull().default(sql`(unixepoch())`),
   updatedAt: int("updatedAt", {mode: "timestamp"}).notNull().default(sql`(unixepoch())`).$onUpdate(() => new Date()),
-  userID: int("userID").references(() => UserTable.id).notNull()
+  userID: int("userID").references(() => UserTable.id)
 });
 
 export const TodoTableSelectSchema = createSelectSchema(TodoTable, {
@@ -20,4 +20,7 @@ export const TodoTableSelectSchema = createSelectSchema(TodoTable, {
   updatedAt: z.string()
 });
 export const TodoTableInsertSchema = createInsertSchema(TodoTable);
-export const TodoTableUpdateSchema = createUpdateSchema(TodoTable);
+export const TodoTableUpdateSchema = createUpdateSchema(TodoTable, {
+  userID: z.number().int().positive(),
+  id: z.number().int().positive(),
+});

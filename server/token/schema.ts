@@ -1,4 +1,4 @@
-import { TokenTableInsertSchema } from "../../db/schema/token";
+import { TokenTableInsertSchema, TokenTableUpdateSchema } from "../../db/schema/token";
 
 export const InsertSchema = TokenTableInsertSchema.pick({
   content: true,
@@ -8,3 +8,7 @@ export const InsertSchema = TokenTableInsertSchema.pick({
 export const ContentSchema = TokenTableInsertSchema.pick({
   content: true,
 });
+
+export const UpdateSchema = TokenTableUpdateSchema.pick({
+  expired: true,
+})
