@@ -1,8 +1,8 @@
-import { insertSchema, IDSchema, UpdateSchema } from "@server/todo/schema"
-import { Insert, ID, Update } from "@server/todo/type"
+import { InsertTodoSchema, TodoIDSchema, UpdateTodoSchema } from "@server/todo/schema"
 import { api } from "@src/api"
 import { queryOptions, QueryClient, useMutation } from "@tanstack/react-query"
 import { toast } from "react-toastify"
+import { z } from "zod"
 
 export const getAllTodosQueryOption = queryOptions({
   queryKey: ["getAllTodos"],
@@ -20,11 +20,11 @@ export const getAllTodosQueryOption = queryOptions({
 export const insertTodoMutation = (queryClient: QueryClient) => (
   useMutation({
     mutationKey: ["insertTodo"],
-    mutationFn: async (insert: Insert) => {
+    mutationFn: async (insert: z.infer<typeof InsertTodoSchema>) => {
       queryClient.setQueryData(insertingTodoQueryOption.queryKey, { insert: insert })
 
       const res = await api.todo.$post({
-        json: insertSchema.parse(insert)
+        json: InsertTodoSchema.parse(insert)
       })
 
       if (!res.ok) {
@@ -47,7 +47,7 @@ export const insertTodoMutation = (queryClient: QueryClient) => (
 )
 
 export const insertingTodoQueryOption = queryOptions<{
-  insert?: Insert
+  insert?: z.infer<typeof InsertTodoSchema>
 }>({
   queryKey: ["insertingTodo"],
   queryFn: () => ({}),
@@ -57,12 +57,12 @@ export const insertingTodoQueryOption = queryOptions<{
 export const updateTodoMutation = (queryClient: QueryClient) =>
   useMutation({
     mutationKey: ["updateTodo"],
-    mutationFn: async ({ update, id }: { update: Update, id: ID }) => {
+    mutationFn: async ({ update, id }: { update: z.infer<typeof UpdateTodoSchema>, id: z.infer<typeof TodoIDSchema> }) => {
       const res = await api.todo[":id{[0-9]+}"].$put({
         param: {
-          id: IDSchema.parse(id).id.toString()
+          id: TodoIDSchema.parse(id).id.toString()
         },
-        json: UpdateSchema.parse(update)
+        json: UpdateTodoSchema.parse(update)
       })
 
       if (!res.ok) {

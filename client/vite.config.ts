@@ -2,14 +2,19 @@ import { defineConfig } from 'vite'
 import path from "path"
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    TanStackRouterVite({ target: 'react', autoCodeSplitting: true }),
+    react(),
+    tailwindcss(),
+  ],
   server: {
     proxy: {
       '/api': {
-        target: "https://183e-222-247-141-247.ngrok-free.app",
+        target: "https://aa4d-222-247-145-251.ngrok-free.app",
         changeOrigin: true,
         secure: false,
       }
