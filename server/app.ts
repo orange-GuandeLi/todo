@@ -9,6 +9,7 @@ import { user } from "./user/router";
 import { HTTPException } from "hono/http-exception";
 import { auth } from "./auth/router";
 import { tokenModel } from "./auth/model";
+import { todo } from "./todo/router";
 
 export const app = new Hono()
   .use(logRemoteAddress)
@@ -36,7 +37,7 @@ export const app = new Hono()
 const apiRoute = app
   .basePath("/api")
   .route("/auth", auth(userModel, tokenModel))
-  // .route("/todo", todo(todoModel))
+  .route("/todo", todo())
   .route("/user", user(userModel))
   .get("/ping", (c) => c.text("pong"));
 
