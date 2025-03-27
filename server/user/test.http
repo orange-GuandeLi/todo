@@ -5,6 +5,6 @@ POST {{BaseURL}}/user
 Content-Type: application/json
 
 {
-  "email": "test1@test.com",
+  "email": "test2@test.com",
   "password": "12345678"
 }

@@ -7,14 +7,9 @@ export function FormatZodError(zodError: ZodError) {
 }
 
 export function GetTokenFromContext(c: Context) {
-  const token = getCookie(c, "token");
-  if (token) {
-    return token;
-  }
-
   const authHeader = c.req.header("Authorization");
   if (!authHeader) {
-    return;
+    return getCookie(c, "token");
   }
   const authHeaderSplits = authHeader.split(" ");
   if (authHeaderSplits[0] != "Bearer") {

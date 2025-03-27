@@ -1,5 +1,6 @@
 @BaseURL=http://localhost:3000/api
-@Auth=Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImV4cCI6MTc0MzY3MTM2NH0.TSHUPWCpHoQ_BaPSNq5zYKiAORrTYVKkn5hfwLQjbRA
+@Auth=Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImV4cCI6MTc0MzY3MjQ0MH0.D3WWevbzJmXBvOY27H-CpgnM4AjT-tnna2ePzs_xqgc
+@Auth2=Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsImV4cCI6MTc0MzY3NTAzMn0.WKQrQ08kKBKXG5qwezcQXi1GgkbULFeeT1poZkNKfCg
 
 ### 心跳检测
 GET {{BaseURL}}/ping
@@ -7,3 +8,22 @@ GET {{BaseURL}}/ping
 ### 获取所有todo
 GET {{BaseURL}}/todo
 {{Auth}}
+
+### 新建一个
+POST {{BaseURL}}/todo
+{{Auth}}
+Content-Type: application/json
+
+{
+  "title": "第一个todo"
+}
+
+### 更新一个
+PUT {{BaseURL}}/todo/1
+{{Auth}}
+Content-Type: application/json
+
+{
+  "completed": true,
+  "title": "hhhhh"
+}

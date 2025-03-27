@@ -1,12 +1,12 @@
 @BaseURL=http://localhost:3000/api
-@Auth=Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImV4cCI6MTc0MzY3MTM2NH0.TSHUPWCpHoQ_BaPSNq5zYKiAORrTYVKkn5hfwLQjbRA
+@Auth=Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImV4cCI6MTc0MzY3MjQ0MH0.D3WWevbzJmXBvOY27H-CpgnM4AjT-tnna2ePzs_xqgc
 
 ### 登录
 POST {{BaseURL}}/auth/signIn
 Content-Type: application/json
 
 {
-  "email": "test1@test.com",
+  "email": "test2@test.com",
   "password": "12345678"
 }
 
