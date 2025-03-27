@@ -2,21 +2,17 @@ import { getCookie } from "hono/cookie";
 import { createMiddleware } from "hono/factory";
 import { verify } from "hono/jwt";
 import { tokenModel } from "server/auth/model";
+import { GetTokenFromContext } from "server/util";
 
 export const Auth = createMiddleware(async (c, next) => {
-  const authHeader = c.req.header("Authorization")?.split(" ");
-  if (authHeader?.[0] != "Bearer") {
-    return c.text("Unauthorized", 401)
-  }
-
-  const token = authHeader?.[1] ?? getCookie(c, "token");
+  const token = GetTokenFromContext(c);
   if (!token) {
     return c.text("Unauthorized", 401)
   }
 
-  const tokenInDB = await tokenModel.findOneByToken({ token})
+  const tokenInDB = await tokenModel.findOneByToken({ token })
 
-  if (!tokenInDB || tokenInDB.expired) {
+  if (!tokenInDB) {
     return c.text("Unauthorized", 401)
   }
 

@@ -11,4 +11,5 @@ type Token = z.infer<typeof TokenSchema>;
 export interface TokenModel {
   insertOne: (insert: TokenTableInsert) => Promise<TokenTableSelect | undefined>;
   findOneByToken: (token: Token) => Promise<TokenTableSelect | undefined>;
+  deleteOneByToken: (token: Token) => Promise<TokenTableSelect | undefined>;
 }

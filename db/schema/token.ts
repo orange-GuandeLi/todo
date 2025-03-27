@@ -6,7 +6,6 @@ import { UserTable } from "./user";
 export const TokenTable = sqliteTable("TokenTable", {
   id: int("id").primaryKey({autoIncrement: true}).unique(),
   token: text("token").notNull().unique(),
-  expired: int("expired", {mode: "boolean"}).notNull().default(false),
   createdAt: int("createdAt", {mode: "timestamp"}).notNull().default(sql`(unixepoch())`),
   updatedAt: int("updatedAt", {mode: "timestamp"}).notNull().default(sql`(unixepoch())`).$onUpdate(() => new Date()),
   userID: int("userID").references(() => UserTable.id, { onDelete: "cascade" }).notNull()

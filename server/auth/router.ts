@@ -8,6 +8,8 @@ import type { JWTPayload } from "hono/utils/jwt/types";
 import type { JwtPayload } from "server/type";
 import type { UserModel } from "server/user/interface";
 import type { TokenModel } from "./interface";
+import { GetTokenFromContext } from "server/util";
+import { HTTPException } from "hono/http-exception";
 
 const SignInSchema = UserTableSelectSchema.pick({
   email: true,
@@ -53,4 +55,21 @@ export const auth = (userModel: UserModel, tokenModel: TokenModel) => new Hono()
         password: true
       }).parse(user),
       200);
+  })
+  .delete("/signOut", async (c) => {
+    const token = GetTokenFromContext(c);
+    if (!token) {
+      throw new HTTPException(401, {
+        message: "Unauthorized"
+      });
+    }
+
+    const res = await tokenModel.deleteOneByToken({ token });
+    if (!res) {
+      throw new Error("Faild to delete Token");
+    }
+
+    setCookie(c, "token", "", cookipOption);
+
+    return c.body(null, 204)
   });

@@ -19,4 +19,11 @@ export const tokenModel: TokenModel = {
       .where(eq(TokenTable.token, TokenSchema.parse(token).token))
       .then(r => r[0])
   },
+  deleteOneByToken: async (token) => {
+    return await db
+      .delete(TokenTable)
+      .where(eq(TokenTable.token, TokenSchema.parse(token).token))
+      .returning()
+      .then(r => r[0])
+  }
 }

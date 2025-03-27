@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "01a01acd-e22e-40d5-89b7-d212c7ceed57",
+  "id": "a13ae814-e3bd-4239-80cc-ed38d7c687e4",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "TodoTabel": {
@@ -104,14 +104,6 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
-        },
-        "expired": {
-          "name": "expired",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": false
         },
         "createdAt": {
           "name": "createdAt",

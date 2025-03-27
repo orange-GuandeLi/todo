@@ -1,5 +1,5 @@
 @BaseURL=http://localhost:3000/api
-@Auth=Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjcsImV4cCI6MTc0MzY2ODUyOH0.0hECMVHX6YZJZKUB39qMl2wawEGtPkltWtArDnJbkjs
+@Auth=Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImV4cCI6MTc0MzY3MTM2NH0.TSHUPWCpHoQ_BaPSNq5zYKiAORrTYVKkn5hfwLQjbRA
 
 ### 心跳检测
 GET {{BaseURL}}/ping

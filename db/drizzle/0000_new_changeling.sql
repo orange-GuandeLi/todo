@@ -13,7 +13,6 @@ CREATE UNIQUE INDEX `TodoTabel_id_unique` ON `TodoTabel` (`id`);--> statement-br
 CREATE TABLE `TokenTable` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`token` text NOT NULL,
-	`expired` integer DEFAULT false NOT NULL,
 	`createdAt` integer DEFAULT (unixepoch()) NOT NULL,
 	`updatedAt` integer DEFAULT (unixepoch()) NOT NULL,
 	`userID` integer NOT NULL,

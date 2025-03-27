@@ -27,12 +27,3 @@ export const user = (model: UserModel) => new Hono()
       201
     );
   });
-  // .put("/sign-out", Auth, (c) => {
-  //   const token = getCookie(c, "token");
-    
-  //   tokenModel.updateOneByContent({content: token!}, { expired: true });
-
-  //   setCookie(c, "token", "", cookipOption);
-
-  //   return c.body(null, 204);
-  // })
