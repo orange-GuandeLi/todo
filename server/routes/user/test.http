@@ -1,4 +1,6 @@
 @BaseURL=http://localhost:3000/api
+@AccessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInR5cGUiOiJBQ0NFU1MiLCJleHAiOjE3NDMxNzQ0NDkuMDY0fQ.PIZ_rP0WVdw5u_AStq0vb3VlkTAGgOEUPse4MaJOdJg
+@RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImdyb3VwSUQiOiI2NGYzMTY5OC03NzgwLTRmZGUtYmM0OC05ZmZlMWJmYWQ4YmEiLCJ0b2tlbklEIjoiOTI3MzM3MTgtNzBkYS00YjQxLTg1YmMtM2Y5ODU5MDA1MmMwIiwidHlwZSI6IlJFRlJFU0giLCJleHAiOjE3NDM3NzgzNDkuMDY1fQ.rnIoGd6FqcFj2qOR2P3iR9Hk1E_RA-LAWD5bURH_eVA
 
 ### 新建用户
 POST {{BaseURL}}/user
@@ -9,7 +11,7 @@ Content-Type: application/json
   "password": "12345678"
 }
 
-### 用户登录
+### 登录
 POST {{BaseURL}}/user/signIn
 Content-Type: application/json
 
@@ -17,3 +19,8 @@ Content-Type: application/json
   "email": "test@test.com",
   "password": "12345678"
 }
+
+### 注销
+DELETE  {{BaseURL}}/user/signOut
+Authorization: Bearer {{AccessToken}}
+X-Refresh-Token: {{RefreshToken}}

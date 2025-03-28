@@ -1,15 +1,11 @@
 import { Hono } from "hono";
-import type { AccessToken } from "../../types/user";
 import { Auth } from "../../middleware/auth";
 import { db } from "../../../db";
 import { TodoTable } from "../../../db/schema/todo";
 import { eq } from "drizzle-orm";
+import type { JwtPayload } from "../../types";
 
-type Variables = {
-  jwtPayload: AccessToken;
-}
-
-export const todo = new Hono<{ Variables: Variables }>()
+export const todo = new Hono<{ Variables: JwtPayload }>()
   .use(Auth)
   .get("/", async (c) => {
     const userID = c.get("jwtPayload").userID;

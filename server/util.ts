@@ -11,7 +11,7 @@ export async function SignAccessToken({ userID }: { userID: number }) {
   const payload: AccessToken = {
     userID: userID,
     type: ACCESS_TOKEN_KEY,
-    exp: Date.now() / 1000 + 1 * 60,
+    exp: Date.now() / 1000 + 15 * 60,
   }
 
   return {

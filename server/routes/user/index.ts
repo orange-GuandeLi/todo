@@ -1,14 +1,18 @@
 import { Hono } from "hono";
 import { zValidator } from "../../middleware/validator";
-import { InsertUserSchema, SelectUserSchema, SignInSchema } from "../../types/user";
+import { InsertUserSchema, RefreshTokenSchema, SelectUserSchema, SignInSchema } from "../../types/user";
 import { db } from "../../../db";
 import { UserTable } from "../../../db/schema/user";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { SignAccessToken, SignRefreshToken } from "../../util";
-import { ACCESS_NEW_TOKEN_HEADER, REFRESH_NEW_TOKEN_HEADER } from "../../types/user/constants";
+import { ACCESS_NEW_TOKEN_HEADER, REFRESH_NEW_TOKEN_HEADER, REFRESH_TOKEN_HEADER } from "../../types/user/constants";
 import { RefreshTokenTable } from "../../../db/schema/refresh-token";
+import { Auth } from "../../middleware/auth";
+import type { JwtPayload } from "../../types";
+import { HTTPException } from "hono/http-exception";
+import { verify } from "hono/jwt";
 
-export const user = new Hono()
+export const user = new Hono<{ Variables: JwtPayload }>()
   .post("/", zValidator("json", InsertUserSchema), async (c) => {
     const insert = c.req.valid("json");
     insert.password = await Bun.password.hash(insert.password);
@@ -74,4 +78,29 @@ export const user = new Hono()
       SelectUserSchema.parse(user),
       200,
     );
+  })
+  .delete("/signOut", Auth, async (c) => {
+    const err = new HTTPException(401, { message: "Unauthorized" });
+    const refreshToken = c.req.header(REFRESH_TOKEN_HEADER);
+    if (!refreshToken) {
+      throw err;
+    }
+
+    try {
+      const { userID, groupID } = RefreshTokenSchema.parse(await verify(refreshToken, process.env.REFRESH_TOKEN_SECRET!));
+
+      await db
+        .update(RefreshTokenTable)
+        .set({
+          isRevoked: true
+        })
+        .where(and(
+          eq(RefreshTokenTable.userID, userID),
+          eq(RefreshTokenTable.groupID, groupID),
+        ));
+      
+      return c.body(null, 204);
+    } catch {
+      throw err;
+    }
   });
