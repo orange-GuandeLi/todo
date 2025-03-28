@@ -1,6 +1,6 @@
 import type { TodoModel } from "./interface";
 import { and, desc, eq } from "drizzle-orm";
-import { UserIDSchema } from "./schema";
+import { UserIDSchema } from "./type";
 import { TodoTable, TodoTableInsertSchema, TodoTableUpdateSchema } from "../../db/schema/todo";
 import { db } from "../../db";
 

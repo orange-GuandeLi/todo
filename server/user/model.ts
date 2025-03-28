@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import { db } from "../../db";
 import { UserTable, UserTableInsertSchema } from "../../db/schema/user";
 import type { UserModel } from "./interface";
-import { UserEmailSchema } from "./schema";
+import { UserEmailSchema } from "./type";
 
 export const userModel: UserModel = {
   insertOne: async (insert) => {

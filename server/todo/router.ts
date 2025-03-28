@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { Auth } from "../middleware/auth";
 import type { JwtPayload } from "../type";
 import type { TodoModel } from "./interface";
-import { InsertTodoSchema, UpdateTodoSchema, TodoIDSchema } from "./schema";
+import { InsertTodoSchema, UpdateTodoSchema, TodoIDSchema } from "./type";
 import { zValidator } from "../middleware/validator";
 
 type Variables = {

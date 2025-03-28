@@ -1,17 +1,18 @@
 @BaseURL=http://localhost:3000/api
-@Auth=Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImV4cCI6MTc0MzY3MjQ0MH0.D3WWevbzJmXBvOY27H-CpgnM4AjT-tnna2ePzs_xqgc
-@Auth2=Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsImV4cCI6MTc0MzY3NTAzMn0.WKQrQ08kKBKXG5qwezcQXi1GgkbULFeeT1poZkNKfCg
+@AccessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInR5cGUiOiJBQ0NFU1MiLCJleHAiOjE3NDMxNjAyMjguOTF9.HD3xJAGYjfsdSpEAL84iCObn_CA0jAbPt7vS0day8S0
+@RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImdyb3VwSUQiOiIyOThmZmYzNi1kZTNmLTRlZjQtODVkZS0yZjQ4YTNmY2U4ZjgiLCJ0b2tlbklEIjoiNTVmYWJjMmMtMmM2Yy00ZmFhLWI2ZjEtMGVkNmIyYjVjMzUyIiwidHlwZSI6IlJFRlJFU0giLCJleHAiOjE3NDMxNjAyODguOTExfQ.8Nfb9uIgcu14LL7HY6ZQieYJRsrr7y8q3GvQhw27Fhk
+
 
 ### 心跳检测
 GET {{BaseURL}}/ping
 
 ### 获取所有todo
 GET {{BaseURL}}/todo
-{{Auth}}
+Authorization: Bearer {{AccessToken}}
+X-Refresh-Token: {{RefreshToken}}
 
 ### 新建一个
 POST {{BaseURL}}/todo
-{{Auth}}
 Content-Type: application/json
 
 {
@@ -20,7 +21,6 @@ Content-Type: application/json
 
 ### 更新一个
 PUT {{BaseURL}}/todo/1
-{{Auth}}
 Content-Type: application/json
 
 {

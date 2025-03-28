@@ -1,15 +1,19 @@
-import { z } from "zod"
-import type { TokenSchema } from "./schema";
-import type { TokenTableInsertSchema, TokenTableSelectSchema } from "../../db/schema/refresh-token";
+import { z } from "zod";
+import { RefreshTokenTableSelectSchema, type RefreshTokenTableInsertSchema } from "../../db/schema/refresh-token";
 
-type TokenTableInsert = z.infer<typeof TokenTableInsertSchema>;
+type RefreshTokenTableInsert = z.infer<typeof RefreshTokenTableInsertSchema>;
 
-type TokenTableSelect = z.infer<typeof TokenTableSelectSchema>;
+type RefreshTokenTableSelect = z.infer<typeof RefreshTokenTableSelectSchema>;
 
-type Token = z.infer<typeof TokenSchema>;
+export const SelectRefreshTokenIndexSchema = RefreshTokenTableSelectSchema.pick({
+  groupID: true,
+  userID: true,
+  lastTokenID: true,
+});
 
-export interface TokenModel {
-  insertOne: (insert: TokenTableInsert) => Promise<TokenTableSelect | undefined>;
-  findOneByToken: (token: Token) => Promise<TokenTableSelect | undefined>;
-  deleteOneByToken: (token: Token) => Promise<TokenTableSelect | undefined>;
+type SelectRefreshTokenIndex = z.infer<typeof SelectRefreshTokenIndexSchema>;
+
+export interface RefreshTokenModel {
+  insertOne: (insert: RefreshTokenTableInsert) => Promise<RefreshTokenTableSelect | undefined>;
+  findOneByIndex: (index: SelectRefreshTokenIndex) => Promise<RefreshTokenTableSelect | undefined>;
 }

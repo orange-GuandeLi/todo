@@ -1,30 +1,19 @@
 import { Hono } from "hono";
-import { getCookie, setCookie } from "hono/cookie";
-import { HTTPException } from "hono/http-exception";
 import { sign } from "hono/jwt";
-import type { CookieOptions } from "hono/utils/cookie";
 import type { JWTPayload } from "hono/utils/jwt/types";
 import { UserTableSelectSchema } from "../../db/schema/user";
-import type { JwtPayload } from "../type";
 import type { UserModel } from "../user/interface";
-import type { TokenModel } from "./interface";
 import { zValidator } from "../middleware/validator";
+import { SignAccessToken, SignRefreshToken } from "../util";
+import { ACCESS_NEW_TOKEN_HEADER, REFRESH_NEW_TOKEN_HEADER } from "../constant";
+import { refreshTokenModel } from "./model";
 
 const SignInSchema = UserTableSelectSchema.pick({
   email: true,
   password: true,
-})
+});
 
-const cookipOption: CookieOptions = {
-  httpOnly: true,
-  secure: process.env.ENV == "prod",
-  sameSite: "Strict",
-  maxAge: 60 * 60,
-  path: "/",
-  signingSecret: process.env.JWT_SECRET,
-}
-
-export const auth = (userModel: UserModel, tokenModel: TokenModel) => new Hono()
+export const auth = (userModel: UserModel) => new Hono()
   .post("/signIn", zValidator("json", SignInSchema), async (c) => {
     const { email, password } = c.req.valid("json");
     const user = await userModel.findOneByEmail({ email });
@@ -33,42 +22,35 @@ export const auth = (userModel: UserModel, tokenModel: TokenModel) => new Hono()
     }
 
     if (!await Bun.password.verify(password, user.password)) {
-      throw new Error(`Password not match`)
+      throw new Error(`Password not match`);
     }
 
-    const jwtPayload: JwtPayload = {
-      userID: user.id,
-      exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7
-    }
-    const token = await sign(jwtPayload as JWTPayload, process.env.JWT_SECRET!)
+    const newAccessToken = await SignAccessToken({userID: user.id});
+    const newRefreshToken = await SignRefreshToken({userID: user.id});
 
-    const insertTokenRes = await tokenModel.insertOne({token, userID: user.id})
-    if (!insertTokenRes) {
-      throw new Error("Faild to insert Token")
-    }
+    c.header(
+      ACCESS_NEW_TOKEN_HEADER,
+      newAccessToken.token,
+    );
+    
+    c.header(
+      REFRESH_NEW_TOKEN_HEADER,
+      newRefreshToken.token,
+    );
 
-    setCookie(c, "token", token, cookipOption)
+    const { payload: { userID, groupID, tokenID } } = newRefreshToken;
+    const res = await refreshTokenModel.insertOne({
+      userID,
+      groupID,
+      lastTokenID: tokenID,
+    });
+    if (!res) {
+      throw new Error("Faild to insert refresh token");
+    }
 
     return c.json(
       UserTableSelectSchema.omit({
         password: true
       }).parse(user),
       200);
-  })
-  .delete("/signOut", async (c) => {
-    const token = getCookie(c, "token");
-    if (!token) {
-      throw new HTTPException(401, {
-        message: "Unauthorized"
-      });
-    }
-
-    const res = await tokenModel.deleteOneByToken({ token });
-    if (!res) {
-      throw new Error("Faild to delete Token");
-    }
-
-    setCookie(c, "token", "", cookipOption);
-
-    return c.body(null, 204)
   });
