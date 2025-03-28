@@ -1,8 +1,8 @@
 @BaseURL=http://localhost:3000/api
-@AccessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInR5cGUiOiJBQ0NFU1MiLCJleHAiOjE3NDMxNzQ0NDkuMDY0fQ.PIZ_rP0WVdw5u_AStq0vb3VlkTAGgOEUPse4MaJOdJg
-@RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImdyb3VwSUQiOiI2NGYzMTY5OC03NzgwLTRmZGUtYmM0OC05ZmZlMWJmYWQ4YmEiLCJ0b2tlbklEIjoiOTI3MzM3MTgtNzBkYS00YjQxLTg1YmMtM2Y5ODU5MDA1MmMwIiwidHlwZSI6IlJFRlJFU0giLCJleHAiOjE3NDM3NzgzNDkuMDY1fQ.rnIoGd6FqcFj2qOR2P3iR9Hk1E_RA-LAWD5bURH_eVA
-@AccessToken1=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInR5cGUiOiJBQ0NFU1MiLCJleHAiOjE3NDMxNzEwNzYuODM3fQ.BQ8urCmCfqxfw2yE1uZFcJxfee0GEJCZvleDYln5Vzk
-@RefreshToken1=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImdyb3VwSUQiOiJjZDg0YmM3My1mMTA4LTQ3MTQtYTkyOS0yMDhmNGZiYzI3NTEiLCJ0b2tlbklEIjoiMGU1ODgwY2EtMzdmMi00NjMwLWE4YjUtMzRjYWIxZGU1MGI0IiwidHlwZSI6IlJFRlJFU0giLCJleHAiOjE3NDM3NzU4MTYuODM3fQ.CTwWYa_e0BIFolhjtUePqLIcjNtojD8htm3ZjFsAUzM
+@AccessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInR5cGUiOiJBQ0NFU1MiLCJleHAiOjE3NDMxNzUxNTMuNDAzfQ.11LrJ4QxtscaebOXuJ-yhd-hORXy7aeXz-r8DUcApz4
+@RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImdyb3VwSUQiOiJkMTNjYzMyMy0xM2U4LTRhODctOTYzNS04NjhlOTYxMzNmNDkiLCJ0b2tlbklEIjoiMzMwMDhmYmItZjYwZS00M2VkLTk2MjEtMGRhMWY3NWYwZWM4IiwidHlwZSI6IlJFRlJFU0giLCJleHAiOjE3NDM3NzkwNTMuNDA0fQ.2PkRR0suSutZBXEHeNJMG5v-obgm0NBd6B3ayDZExA0
+@AccessToken1=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInR5cGUiOiJBQ0NFU1MiLCJleHAiOjE3NDMxNzU5MDQuMTk2fQ.Tpkf8e0aYgLrMMHu59o0cCsulskCrVlotWbGZR36nRQ
+@RefreshToken1=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsImdyb3VwSUQiOiI5ODI1MjRjZC1iOTZlLTQyZWMtYjk5MS04MDZhYjEyNmUzMzIiLCJ0b2tlbklEIjoiNmQ5ZWM1NTUtYTEwZS00OWEyLTlkNWItZGQ3YzdlYTMwNzE4IiwidHlwZSI6IlJFRlJFU0giLCJleHAiOjE3NDM3Nzk4MDQuMTk4fQ.I3ztquENTWiAtCx80cKnR5-Acly7mXpqM4VQPTHjILw
 
 
 ### 心跳检测
@@ -10,22 +10,26 @@ GET {{BaseURL}}/ping
 
 ### 获取所有todo
 GET {{BaseURL}}/todo
-Authorization: Bearer {{AccessToken1}}
-X-Refresh-Token: {{RefreshToken1}}
+Authorization: Bearer {{AccessToken}}
+X-Refresh-Token: {{RefreshToken}}
 
 ### 新建一个
 POST {{BaseURL}}/todo
 Content-Type: application/json
+Authorization: Bearer {{AccessToken1}}
+X-Refresh-Token: {{RefreshToken1}}
 
 {
-  "title": "第一个todo"
+  "title": "这是用户test的todo"
 }
 
 ### 更新一个
-PUT {{BaseURL}}/todo/1
+PUT {{BaseURL}}/todo/3
 Content-Type: application/json
+Authorization: Bearer {{AccessToken1}}
+X-Refresh-Token: {{RefreshToken1}}
 
 {
   "completed": true,
-  "title": "hhhhh"
+  "title": "改为用户2的todo"
 }

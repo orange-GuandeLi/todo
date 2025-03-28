@@ -7,7 +7,7 @@ POST {{BaseURL}}/user
 Content-Type: application/json
 
 {
-  "email": "test@test.com",
+  "email": "test2@test.com",
   "password": "12345678"
 }
 
@@ -16,7 +16,7 @@ POST {{BaseURL}}/user/signIn
 Content-Type: application/json
 
 {
-  "email": "test@test.com",
+  "email": "test2@test.com",
   "password": "12345678"
 }
 

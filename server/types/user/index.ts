@@ -1,6 +1,5 @@
-import { createInsertSchema, createSelectSchema, createUpdateSchema } from "drizzle-zod";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { UserTable } from "../../../db/schema/user";
-import { RefreshTokenTable } from "../../../db/schema/refresh-token";
 import { z } from "zod";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "./constants";
 
@@ -8,11 +7,6 @@ const UserTableSelectSchema = createSelectSchema(UserTable);
 const UserTableInsertSchema = createInsertSchema(UserTable, {
   email: z.string().email(),
 });
-const UserTableUpdateSchema = createUpdateSchema(UserTable);
-
-const RefreshTokenTableSelectSchema = createSelectSchema(RefreshTokenTable);
-const RefreshTokenTableInsertSchema = createInsertSchema(RefreshTokenTable);
-const RefreshTokenTableUpdateSchema = createUpdateSchema(RefreshTokenTable);
 
 export const InsertUserSchema = UserTableInsertSchema.pick({
   email: true,
