@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "./constant";
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "./constants";
 
 export const AccessTokenSchema = z.object({
   userID: z.number().int().positive(),

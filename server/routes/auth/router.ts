@@ -1,17 +1,5 @@
 import { Hono } from "hono";
-import { sign } from "hono/jwt";
-import type { JWTPayload } from "hono/utils/jwt/types";
-import { UserTableSelectSchema } from "../../db/schema/user";
-import type { UserModel } from "../user/interface";
-import { zValidator } from "../middleware/validator";
-import { SignAccessToken, SignRefreshToken } from "../util";
-import { ACCESS_NEW_TOKEN_HEADER, REFRESH_NEW_TOKEN_HEADER } from "../constant";
 import { refreshTokenModel } from "./model";
-
-const SignInSchema = UserTableSelectSchema.pick({
-  email: true,
-  password: true,
-});
 
 export const auth = (userModel: UserModel) => new Hono()
   .post("/signIn", zValidator("json", SignInSchema), async (c) => {

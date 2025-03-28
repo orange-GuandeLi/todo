@@ -1,7 +1,7 @@
 import type { ZodError } from "zod";
-import type { AccessToken, RefreshToken } from "./type";
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "./constant";
 import { sign } from "hono/jwt";
+import type { AccessToken, RefreshToken } from "./types/token";
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "./types/token/constants";
 
 export function FormatZodError(zodError: ZodError) {
   return zodError.issues.map(issue => `[${issue.path.join(", ")}]: ${issue.message}`).join(", ")

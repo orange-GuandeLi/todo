@@ -1,10 +1,13 @@
 import { createMiddleware } from "hono/factory";
-import { jwt, sign, verify } from "hono/jwt";
+import { jwt, verify } from "hono/jwt";
 import { HTTPException } from "hono/http-exception";
-import { ACCESS_NEW_TOKEN_HEADER, REFRESH_NEW_TOKEN_HEADER, REFRESH_TOKEN_HEADER, REFRESH_TOKEN_KEY } from "../constant";
-import { RefreshTokenSchema, type RefreshToken } from "../type";
 import { SignAccessToken, SignRefreshToken } from "../util";
-import { refreshTokenModel } from "../auth/model";
+import { refreshTokenModel } from "../routes/auth/model";
+import { RefreshTokenSchema } from "../types/token";
+import { REFRESH_TOKEN_HEADER, ACCESS_NEW_TOKEN_HEADER, REFRESH_NEW_TOKEN_HEADER } from "../types/token/constants";
+import { db } from "../../db";
+import { RefreshTokenTable } from "../../db/schema/refresh-token";
+import { and, eq } from "drizzle-orm";
 
 export const Auth = createMiddleware(async (c, next) => {
   try {
@@ -22,14 +25,30 @@ export const Auth = createMiddleware(async (c, next) => {
       try {
         const { userID, groupID, tokenID } = RefreshTokenSchema.parse(await verify(refreshToken, process.env.REFRESH_TOKEN_SECRET!));
 
-        const tokenInDB = await refreshTokenModel.findOneByIndex({
-          userID: userID,
-          groupID: groupID,
-          lastTokenID: tokenID,
-        });
+        const tokenInDB = await db
+          .select()
+          .from(RefreshTokenTable)
+          .where(and(
+            eq(RefreshTokenTable.userID, userID),
+            eq(RefreshTokenTable.groupID, groupID),
+            eq(RefreshTokenTable.lastTokenID, tokenID),
+          ))
+          .then(r => r[0]);
 
         if (!tokenInDB) {
-          // 意味着有人模仿攻击
+          try {
+            await db
+            .update(RefreshTokenTable)
+            .set({
+              isRevoked: true
+            })
+            .where(and(
+              eq(RefreshTokenTable.userID, userID),
+              eq(RefreshTokenTable.groupID, groupID),
+            ));
+          } catch {
+            throw err;
+          }
 
           throw err;
         }

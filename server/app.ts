@@ -4,12 +4,8 @@ import { FormatZodError } from "./util";
 import { serveStatic } from "hono/bun";
 import { logger } from "hono/logger";
 import { logRemoteAddress } from "./middleware/log-remote-addr";
-import { userModel } from "./user/model";
-import { user } from "./user/router";
 import { HTTPException } from "hono/http-exception";
-import { todo } from "./todo/router";
-import { todoModel } from "./todo/model";
-import { auth } from "./auth/router";
+import { user } from "./routes/user";
 
 export const app = new Hono()
   .use(logRemoteAddress)
@@ -36,9 +32,9 @@ export const app = new Hono()
 
 const apiRoute = app
   .basePath("/api")
-  .route("/auth", auth(userModel))
-  .route("/todo", todo(todoModel))
-  .route("/user", user(userModel))
+  // .route("/auth", auth(userModel))
+  // .route("/todo", todo(todoModel))
+  .route("/user", user)
   .get("/ping", (c) => c.text("pong"));
 
 export type ApiRoute = typeof apiRoute;
