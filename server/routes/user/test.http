@@ -8,3 +8,12 @@ Content-Type: application/json
   "email": "test@test.com",
   "password": "12345678"
 }
+
+### 用户登录
+POST {{BaseURL}}/user/signIn
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "12345678"
+}

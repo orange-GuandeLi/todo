@@ -2,12 +2,11 @@ import { createMiddleware } from "hono/factory";
 import { jwt, verify } from "hono/jwt";
 import { HTTPException } from "hono/http-exception";
 import { SignAccessToken, SignRefreshToken } from "../util";
-import { refreshTokenModel } from "../routes/auth/model";
-import { RefreshTokenSchema } from "../types/token";
-import { REFRESH_TOKEN_HEADER, ACCESS_NEW_TOKEN_HEADER, REFRESH_NEW_TOKEN_HEADER } from "../types/token/constants";
 import { db } from "../../db";
 import { RefreshTokenTable } from "../../db/schema/refresh-token";
 import { and, eq } from "drizzle-orm";
+import { ACCESS_NEW_TOKEN_HEADER, REFRESH_NEW_TOKEN_HEADER, REFRESH_TOKEN_HEADER } from "../types/user/constants";
+import { RefreshTokenSchema } from "../types/user";
 
 export const Auth = createMiddleware(async (c, next) => {
   try {
@@ -38,14 +37,14 @@ export const Auth = createMiddleware(async (c, next) => {
         if (!tokenInDB) {
           try {
             await db
-            .update(RefreshTokenTable)
-            .set({
-              isRevoked: true
-            })
-            .where(and(
-              eq(RefreshTokenTable.userID, userID),
-              eq(RefreshTokenTable.groupID, groupID),
-            ));
+              .update(RefreshTokenTable)
+              .set({
+                isRevoked: true
+              })
+              .where(and(
+                eq(RefreshTokenTable.userID, userID),
+                eq(RefreshTokenTable.groupID, groupID),
+              ));
           } catch {
             throw err;
           }
@@ -58,12 +57,20 @@ export const Auth = createMiddleware(async (c, next) => {
         }
 
         const newAccessToken = await SignAccessToken({userID: userID});
+        const newRefreshToken = await SignRefreshToken({userID: userID, groupID: groupID});
+        await db
+          .update(RefreshTokenTable)
+          .set({lastTokenID: newRefreshToken.payload.tokenID})
+          .where(and(
+            eq(RefreshTokenTable.userID, userID),
+            eq(RefreshTokenTable.groupID, groupID),
+            eq(RefreshTokenTable.lastTokenID, tokenID),
+          ));
+
         c.header(
           ACCESS_NEW_TOKEN_HEADER,
           newAccessToken.token,
         );
-
-        const newRefreshToken = await SignRefreshToken({userID: userID, groupID: groupID}) 
         c.header(
           REFRESH_NEW_TOKEN_HEADER,
           newRefreshToken.token,
