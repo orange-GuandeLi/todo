@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { setCookie } from "hono/cookie";
+import { getCookie, setCookie } from "hono/cookie";
 import { HTTPException } from "hono/http-exception";
 import { sign } from "hono/jwt";
 import type { CookieOptions } from "hono/utils/cookie";
@@ -7,7 +7,6 @@ import type { JWTPayload } from "hono/utils/jwt/types";
 import { UserTableSelectSchema } from "../../db/schema/user";
 import type { JwtPayload } from "../type";
 import type { UserModel } from "../user/interface";
-import { GetTokenFromContext } from "../util";
 import type { TokenModel } from "./interface";
 import { zValidator } from "../middleware/validator";
 
@@ -57,7 +56,7 @@ export const auth = (userModel: UserModel, tokenModel: TokenModel) => new Hono()
       200);
   })
   .delete("/signOut", async (c) => {
-    const token = GetTokenFromContext(c);
+    const token = getCookie(c, "token");
     if (!token) {
       throw new HTTPException(401, {
         message: "Unauthorized"

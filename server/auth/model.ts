@@ -2,7 +2,7 @@ import type { TokenModel } from "./interface";
 import { eq } from "drizzle-orm";
 import { TokenSchema } from "./schema";
 import { db } from "../../db";
-import { TokenTable, TokenTableInsertSchema } from "../../db/schema/token";
+import { TokenTable, TokenTableInsertSchema } from "../../db/schema/refresh-token";
 
 export const tokenModel: TokenModel = {
   insertOne: async (insert) => {

@@ -1,10 +1,10 @@
 import { createMiddleware } from "hono/factory";
 import { verify } from "hono/jwt";
 import { tokenModel } from "../auth/model";
-import { GetTokenFromContext } from "../util";
+import { getCookie } from "hono/cookie";
 
 export const Auth = createMiddleware(async (c, next) => {
-  const token = GetTokenFromContext(c);
+  const token = getCookie(c, "token");
   if (!token) {
     return c.text("Unauthorized", 401)
   }

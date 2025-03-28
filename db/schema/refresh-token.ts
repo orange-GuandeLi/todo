@@ -3,7 +3,7 @@ import { int, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 import { createSelectSchema, createInsertSchema, createUpdateSchema } from 'drizzle-zod';
 import { UserTable } from "./user";
 
-export const TokenTable = sqliteTable("TokenTable", {
+export const RefreshToken = sqliteTable("RefreshToken", {
   id: int("id").primaryKey({autoIncrement: true}).unique(),
   token: text("token").notNull().unique(),
   createdAt: int("createdAt", {mode: "timestamp"}).notNull().default(sql`(unixepoch())`),
@@ -13,6 +13,6 @@ export const TokenTable = sqliteTable("TokenTable", {
   uniqueIndex("tokenIndex").on(table.token)
 ]);
 
-export const TokenTableSelectSchema = createSelectSchema(TokenTable);
-export const TokenTableInsertSchema = createInsertSchema(TokenTable);
-export const TokenTableUpdateSchema = createUpdateSchema(TokenTable);
+export const RefreshTokenSelectSchema = createSelectSchema(RefreshToken);
+export const RefreshTokenInsertSchema = createInsertSchema(RefreshToken);
+export const RefreshTokenUpdateSchema = createUpdateSchema(RefreshToken);
