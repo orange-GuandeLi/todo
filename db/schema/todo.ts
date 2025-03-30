@@ -15,7 +15,9 @@ export const TodoTable = sqliteTable("TodoTabel", {
   userID: int("userID").references(() => UserTable.id, { onDelete: "cascade" }).notNull(),
 });
 
-const TodoTableSelectSchema = createSelectSchema(TodoTable);
+const TodoTableSelectSchema = createSelectSchema(TodoTable, {
+  id: z.coerce.number().int().positive(),
+});
 const TodoTableInsertSchema = createInsertSchema(TodoTable, {
   title: z.string().min(1),
   description: z.string().min(1).optional(),

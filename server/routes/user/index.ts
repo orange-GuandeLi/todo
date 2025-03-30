@@ -83,6 +83,16 @@ export const user = new Hono<{ Variables: JwtPayload }>()
           eq(table.groupID, groupID),
         ),
       });
+
+      c.header(
+        ACCESS_NEW_TOKEN_HEADER,
+        "",
+      );
+      
+      c.header(
+        REFRESH_NEW_TOKEN_HEADER,
+        "",
+      );
       
       return c.body(null, 204);
     } catch {

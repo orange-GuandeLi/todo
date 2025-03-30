@@ -1,13 +1,13 @@
 @BaseURL=http://localhost:3000/api
-@AccessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInR5cGUiOiJBQ0NFU1MiLCJleHAiOjE3NDMxNzQ0NDkuMDY0fQ.PIZ_rP0WVdw5u_AStq0vb3VlkTAGgOEUPse4MaJOdJg
-@RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImdyb3VwSUQiOiI2NGYzMTY5OC03NzgwLTRmZGUtYmM0OC05ZmZlMWJmYWQ4YmEiLCJ0b2tlbklEIjoiOTI3MzM3MTgtNzBkYS00YjQxLTg1YmMtM2Y5ODU5MDA1MmMwIiwidHlwZSI6IlJFRlJFU0giLCJleHAiOjE3NDM3NzgzNDkuMDY1fQ.rnIoGd6FqcFj2qOR2P3iR9Hk1E_RA-LAWD5bURH_eVA
+@AccessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInR5cGUiOiJBQ0NFU1MiLCJleHAiOjE3NDMzMjI2MDIuMzA3fQ.J5KKEHpkLqRr2127TO_O6VTaB60_FENo0LBet2vd4mk
+@RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImdyb3VwSUQiOiIxYjNmYzQ1Ny1mZDVjLTQ1M2YtODFiOC1hYmQzODRlOWJlNTYiLCJ0b2tlbklEIjoiNDY1YzQ1YTItZTQ5OS00NzBlLWI4NTUtYjM5MmVlNGNjMGM2IiwidHlwZSI6IlJFRlJFU0giLCJleHAiOjE3NDM5MjY1MDIuMzA5fQ.CzObPpBmYQAE47pn05T3FoIKFa3VkOay-yUHm9ZxAj0
 
 ### 新建用户
 POST {{BaseURL}}/user
 Content-Type: application/json
 
 {
-  "email": "test2@test.com",
+  "email": "test@test.com",
   "password": "12345678"
 }
 
@@ -16,7 +16,7 @@ POST {{BaseURL}}/user/signIn
 Content-Type: application/json
 
 {
-  "email": "test2@test.com",
+  "email": "test@test.com",
   "password": "12345678"
 }
 
