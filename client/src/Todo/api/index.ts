@@ -1,30 +1,30 @@
-import { InsertTodoSchema, TodoIDSchema, UpdateTodoSchema } from "@server/todo/schema"
-import { api } from "@src/api"
-import { queryOptions, QueryClient, useMutation } from "@tanstack/react-query"
-import { toast } from "react-toastify"
-import { z } from "zod"
+import { TodoDBISchema, TodoDBSSchema, TodoDBUShcema } from "@db/schema/todo";
+import { api } from "@src/api";
+import { queryOptions, QueryClient, useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { z } from "zod";
 
 export const getAllTodosQueryOption = queryOptions({
   queryKey: ["getAllTodos"],
   queryFn: async () => {
-    const res = await api.todo.$get()
+    const res = await api.todo.$get();
     if (!res.ok) {
-      throw new Error(await res.text())
+      throw new Error(await res.text());
     }
 
-    return await res.json()
+    return await res.json();
   },
-  staleTime: 5 * 60 * 1000
+  staleTime: 5 * 60 * 1000,
 })
 
 export const insertTodoMutation = (queryClient: QueryClient) => (
   useMutation({
     mutationKey: ["insertTodo"],
-    mutationFn: async (insert: z.infer<typeof InsertTodoSchema>) => {
+    mutationFn: async (insert: z.infer<typeof TodoDBISchema>) => {
       queryClient.setQueryData(insertingTodoQueryOption.queryKey, { insert: insert })
 
       const res = await api.todo.$post({
-        json: InsertTodoSchema.parse(insert)
+        json: TodoDBISchema.parse(insert)
       })
 
       if (!res.ok) {
@@ -47,22 +47,24 @@ export const insertTodoMutation = (queryClient: QueryClient) => (
 )
 
 export const insertingTodoQueryOption = queryOptions<{
-  insert?: z.infer<typeof InsertTodoSchema>
+  insert?: z.infer<typeof TodoDBISchema>
 }>({
   queryKey: ["insertingTodo"],
   queryFn: () => ({}),
   staleTime: Infinity
 })
 
+const TodoIDSchema = TodoDBSSchema.pick({ id: true });
+
 export const updateTodoMutation = (queryClient: QueryClient) =>
   useMutation({
     mutationKey: ["updateTodo"],
-    mutationFn: async ({ update, id }: { update: z.infer<typeof UpdateTodoSchema>, id: z.infer<typeof TodoIDSchema> }) => {
+    mutationFn: async ({ update, id }: { update: z.infer<typeof TodoDBUShcema>, id: z.infer<typeof TodoIDSchema> }) => {
       const res = await api.todo[":id{[0-9]+}"].$put({
         param: {
-          id: TodoIDSchema.parse(id).id.toString()
+          id: TodoDBSSchema.pick({ id: true }).parse(id).id.toString()
         },
-        json: UpdateTodoSchema.parse(update)
+        json: TodoDBUShcema.parse(update)
       })
 
       if (!res.ok) {

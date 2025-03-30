@@ -14,7 +14,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: "https://aa4d-222-247-145-251.ngrok-free.app",
+        target: "https://9c61-222-247-154-13.ngrok-free.app",
         changeOrigin: true,
         secure: false,
       }
@@ -24,6 +24,7 @@ export default defineConfig({
     alias: {
       "@server": path.resolve(__dirname, "../server"),
       "@src": path.resolve(__dirname, "./src"),
+      "@db": path.resolve(__dirname, "../db"),
     }
   }
 })
