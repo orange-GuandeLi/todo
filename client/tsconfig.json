@@ -9,7 +9,7 @@
     "paths": {
       "@server/*": ["../server/*"],
       "@src/*": ["./src/*"],
-      "@db/*": ["../db/*"],
+      "@schema/*": ["../server/api-schema/*"],
     }
   }
 }

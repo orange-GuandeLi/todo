@@ -2,10 +2,10 @@ import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import { jwt, verify } from "hono/jwt";
 import { ACCESS_NEW_TOKEN_HEADER, REFRESH_NEW_TOKEN_HEADER, REFRESH_TOKEN_HEADER } from "./constants";
-import { RefreshTokenSchema } from "./types";
-import { selectRefreshToken, updateRefreshToken } from "@db/schema/refresh-token";
+import { RefreshTokenSchema } from "./type";
 import { and, eq } from "drizzle-orm";
-import { SignAccessToken, SignRefreshToken } from "@server/util";
+import { SignAccessToken, SignRefreshToken } from "server/util";
+import { selectRefreshToken, updateRefreshToken } from "./model";
 
 export function Auth() {
   return createMiddleware(async (c, next) => {

@@ -1,14 +1,14 @@
 import { Hono } from "hono";
-import { RefreshTokenSchema, type JwtPayload } from "./types";
-import { TypeValidator } from "@server/middleware/type-validator";
-import { insertUser, selectUser, UserDBISchema, UserDBSSchema } from "@db/schema/user";
+import { RefreshTokenSchema, type JwtPayload } from "./type";
+import { TypeValidator } from "server/middleware/type-validator";
+import { UserDBISchema, UserDBSSchema } from "db/schema/user";
 import { and, eq } from "drizzle-orm";
-import { SignAccessToken, SignRefreshToken } from "@server/util";
+import { SignAccessToken, SignRefreshToken } from "server/util";
 import { ACCESS_NEW_TOKEN_HEADER, REFRESH_NEW_TOKEN_HEADER, REFRESH_TOKEN_HEADER } from "./constants";
-import { insertRefreshToken, updateRefreshToken } from "@db/schema/refresh-token";
 import { Auth } from "./auth-middleware";
 import { HTTPException } from "hono/http-exception";
 import { verify } from "hono/jwt";
+import { insertUser, selectUser, insertRefreshToken, updateRefreshToken } from "./model";
 
 export const user = new Hono<{ Variables: JwtPayload }>()
   .post("/", TypeValidator("json", UserDBISchema), async (c) => {

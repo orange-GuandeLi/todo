@@ -1,8 +1,7 @@
-import { SQL, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { UserTable } from "./user";
 import { createSelectSchema, createInsertSchema, createUpdateSchema } from "drizzle-zod";
-import { DBInsert, DBSelect, DBUpdate } from "..";
 import { z } from "zod";
 
 export const TodoTable = sqliteTable("TodoTabel", {
@@ -34,35 +33,10 @@ export const TodoDBISchema = TodoTableInsertSchema
     createdAt: true,
     updatedAt: true,
   });
-export const TodoDBUShcema = TodoTableUpdateSchema
+export const TodoDBUSchema = TodoTableUpdateSchema
   .omit({
     id: true,
     createdAt: true,
     updatedAt: true,
     userID: true,
   });
-
-export async function insertTodo({ values } : {values: z.infer<typeof TodoDBISchema>}) {
-  return await DBInsert({
-    table: TodoTable,
-    values: TodoDBISchema.parse(values),
-  });
-}
-
-export async function updateTodo(
-  {values, where} :
-  {
-    values: z.infer<typeof TodoDBUShcema>,
-    where?: (table: typeof TodoTable) => SQL | undefined,
-  }
-) {
-  return await DBUpdate({
-    table: TodoTable,
-    values: TodoDBUShcema.parse(values),
-    where: where,
-  });
-}
-
-export async function selectTodo({ where } : {where?: (table: typeof TodoTable) => SQL | undefined}) {
-  return await DBSelect({ table: TodoTable, where });
-}

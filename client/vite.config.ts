@@ -24,7 +24,7 @@ export default defineConfig({
     alias: {
       "@server": path.resolve(__dirname, "../server"),
       "@src": path.resolve(__dirname, "./src"),
-      "@db": path.resolve(__dirname, "../db"),
+      "@schema": path.resolve(__dirname, "../api-schema"),
     }
   }
 })

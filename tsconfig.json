@@ -26,9 +26,5 @@
     "noPropertyAccessFromIndexSignature": false,
 
     "baseUrl": ".",
-    "paths": {
-      "@db/*": ["./db/*"],
-      "@server/*": ["./server/*"],
-    }
   }
 }

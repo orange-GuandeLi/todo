@@ -1,9 +1,10 @@
-import { insertTodo, selectTodo, TodoDBISchema, TodoDBSSchema, TodoDBUShcema, updateTodo } from "@db/schema/todo";
-import { Auth } from "@server/routes/user/auth-middleware";
-import { TypeValidator } from "@server/middleware/type-validator";
+import { Auth } from "server/routes/user/auth-middleware";
+import { TypeValidator } from "server/middleware/type-validator";
 import { eq, and } from "drizzle-orm";
 import { Hono } from "hono";
-import type { JwtPayload } from "../user/types";
+import type { JwtPayload } from "../user/type";
+import { selectTodo, insertTodo, updateTodo } from "./model";
+import { TodoRestIDSSchema, TodoRestISchema, TodoRestUSchema } from "./api-schema";
 
 export const todo = new Hono<{ Variables: JwtPayload }>()
   .use(Auth())
@@ -14,9 +15,7 @@ export const todo = new Hono<{ Variables: JwtPayload }>()
       return c.json(res, 200);
     })
   .post("/",
-    TypeValidator("json", TodoDBISchema.omit({
-      userID: true,
-    })),
+    TypeValidator("json", TodoRestISchema),
     async (c) => {
       const userID = c.get("jwtPayload").userID;
       const values = c.req.valid("json");
@@ -25,10 +24,8 @@ export const todo = new Hono<{ Variables: JwtPayload }>()
       return c.json(res, 201);
     })
   .put("/:id{[0-9]+}",
-    TypeValidator("json", TodoDBUShcema),
-    TypeValidator("param", TodoDBSSchema.pick({
-      id: true,
-    })),
+    TypeValidator("json", TodoRestUSchema),
+    TypeValidator("param", TodoRestIDSSchema),
     async (c) => {
       const id = c.req.valid("param");
       const values = c.req.valid("json");
