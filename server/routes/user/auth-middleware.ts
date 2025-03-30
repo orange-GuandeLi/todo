@@ -18,10 +18,12 @@ export function Auth() {
         throw err;
       }
 
+      const jwtError = new HTTPException(401, { message: "Unauthorized" });
+
       const refreshToken = c.req.header(REFRESH_TOKEN_HEADER);
 
       if (!refreshToken) {
-        throw err;
+        throw jwtError;
       }
 
       try {
@@ -48,11 +50,11 @@ export function Auth() {
             },
           });
 
-          throw err;
+          throw jwtError;
         }
 
         if (tokenInDB.isRevoked) {
-          throw err;
+          throw jwtError;
         }
 
         const newAccessToken = await SignAccessToken({ userID: userID });
@@ -79,7 +81,7 @@ export function Auth() {
 
         return await next();
       } catch {
-        throw err;
+        throw jwtError;
       }
     }
   })

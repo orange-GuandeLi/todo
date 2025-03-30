@@ -2,8 +2,8 @@ import { SQL, sql } from "drizzle-orm";
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { UserTable } from "./user";
 import { createSelectSchema, createInsertSchema, createUpdateSchema } from "drizzle-zod";
-import z from "node_modules/zod/lib";
 import { DBInsert, DBSelect, DBUpdate } from "..";
+import { z } from "zod";
 
 export const TodoTable = sqliteTable("TodoTabel", {
   id: int("id").primaryKey({autoIncrement: true}).unique(),
