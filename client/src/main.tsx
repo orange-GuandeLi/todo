@@ -2,15 +2,45 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import {
+  MutationCache,
+  QueryCache,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { Bounce, ToastContainer } from 'react-toastify';
+import { Bounce, toast, ToastContainer } from 'react-toastify';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
+import { HTTPException } from 'hono/http-exception'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: (failCount, err) => {
+        if (err instanceof HTTPException && err.status == 401) {
+          return false;
+        }
+
+        return failCount < 2;
+      },
+    },
+  },
+  queryCache: new QueryCache({
+    onError: (err) => {
+      toast.error(err.message);
+      if (err instanceof HTTPException && err.status == 401) {
+        router.navigate({
+          to: "/auth",
+        });
+      }
+    }
+  }),
+  mutationCache: new MutationCache({
+    onError: (err) => {
+      toast.error(err.message);
+    }
+  })
+});
 
 const router = createRouter({ routeTree });
 
