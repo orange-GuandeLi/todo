@@ -1,9 +1,9 @@
 import { insertTodo, selectTodo, TodoDBISchema, TodoDBSSchema, TodoDBUShcema, updateTodo } from "@db/schema/todo";
 import { Auth } from "@server/routes/user/auth-middleware";
 import { TypeValidator } from "@server/middleware/type-validator";
-import type { JwtPayload } from "@server/types";
 import { eq, and } from "drizzle-orm";
 import { Hono } from "hono";
+import type { JwtPayload } from "../user/types";
 
 export const todo = new Hono<{ Variables: JwtPayload }>()
   .use(Auth())
