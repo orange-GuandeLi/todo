@@ -11,7 +11,7 @@ export async function SignAccessToken({ userID }: { userID: number }) {
   const payload: AccessToken = {
     userID: userID,
     type: ACCESS_TOKEN_KEY,
-    exp: Date.now() / 1000 + 15 * 60,
+    exp: Math.floor(Date.now()) / 1000 + 15 * 60,
   }
 
   return {
@@ -29,7 +29,7 @@ export async function SignRefreshToken({ userID, groupID }: { userID: number, gr
     groupID: groupID || crypto.randomUUID(),
     tokenID: crypto.randomUUID(),
     type: REFRESH_TOKEN_KEY,
-    exp: Date.now() / 1000 + 7 * 24 * 60 * 60,
+    exp: Math.floor(Date.now()) / 1000 + 7 * 24 * 60 * 60,
   }
 
   return {
