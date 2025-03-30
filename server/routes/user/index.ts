@@ -1,17 +1,3 @@
-import { Hono } from "hono";
-import { zValidator } from "../../middleware/validator";
-import { InsertUserSchema, RefreshTokenSchema, SelectUserSchema, SignInSchema } from "../../types/user";
-import { db } from "../../../db";
-import { UserTable } from "../../../db/schema/user";
-import { and, eq } from "drizzle-orm";
-import { SignAccessToken, SignRefreshToken } from "../../util";
-import { ACCESS_NEW_TOKEN_HEADER, REFRESH_NEW_TOKEN_HEADER, REFRESH_TOKEN_HEADER } from "../../types/user/constants";
-import { RefreshTokenTable } from "../../../db/schema/refresh-token";
-import { Auth } from "../../middleware/auth";
-import type { JwtPayload } from "../../types";
-import { HTTPException } from "hono/http-exception";
-import { verify } from "hono/jwt";
-
 export const user = new Hono<{ Variables: JwtPayload }>()
   .post("/", zValidator("json", InsertUserSchema), async (c) => {
     const insert = c.req.valid("json");

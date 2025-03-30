@@ -3,13 +3,13 @@ import { ZodError } from "zod";
 import { FormatZodError } from "./util";
 import { serveStatic } from "hono/bun";
 import { logger } from "hono/logger";
-import { logRemoteAddress } from "./middleware/log-remote-addr";
+import { LogRemoteAddress } from "./middleware/log-remote-addr";
 import { HTTPException } from "hono/http-exception";
 import { user } from "./routes/user";
 import { todo } from "./routes/todo";
 
 export const app = new Hono()
-  .use(logRemoteAddress)
+  .use(LogRemoteAddress())
   .use(logger())
   .notFound((c) => {
     return c.text("Not Found", 404);

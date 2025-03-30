@@ -10,8 +10,8 @@ GET {{BaseURL}}/ping
 
 ### 获取所有todo
 GET {{BaseURL}}/todo
-Authorization: Bearer {{AccessToken}}
-X-Refresh-Token: {{RefreshToken}}
+Authorization: Bearer {{AccessToken1}}
+X-Refresh-Token: {{RefreshToken1}}
 
 ### 新建一个
 POST {{BaseURL}}/todo

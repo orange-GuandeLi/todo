@@ -1,7 +1,7 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { UserTable } from "../../../db/schema/user";
 import { z } from "zod";
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "./constants";
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../../routes/user/constants";
 
 const UserTableSelectSchema = createSelectSchema(UserTable);
 const UserTableInsertSchema = createInsertSchema(UserTable, {

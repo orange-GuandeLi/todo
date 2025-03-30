@@ -1,14 +1,5 @@
-import { createMiddleware } from "hono/factory";
-import { jwt, verify } from "hono/jwt";
-import { HTTPException } from "hono/http-exception";
-import { SignAccessToken, SignRefreshToken } from "../util";
-import { db } from "../../db";
-import { RefreshTokenTable } from "../../db/schema/refresh-token";
-import { and, eq } from "drizzle-orm";
-import { ACCESS_NEW_TOKEN_HEADER, REFRESH_NEW_TOKEN_HEADER, REFRESH_TOKEN_HEADER } from "../types/user/constants";
-import { RefreshTokenSchema } from "../types/user";
-
-export const Auth = createMiddleware(async (c, next) => {
+export function Auth() {
+  return createMiddleware(async (c, next) => {
   try {
     await jwt({
       secret: process.env.ACCESS_TOKEN_SECRET!,
@@ -83,3 +74,4 @@ export const Auth = createMiddleware(async (c, next) => {
     }
   }
 })
+}
