@@ -4,8 +4,8 @@ import { jwt, verify } from "hono/jwt";
 import { ACCESS_NEW_TOKEN_HEADER, REFRESH_NEW_TOKEN_HEADER, REFRESH_TOKEN_HEADER } from "./constants";
 import { RefreshTokenSchema } from "./type";
 import { and, eq } from "drizzle-orm";
-import { SignAccessToken, SignRefreshToken } from "server/util";
 import { selectRefreshToken, updateRefreshToken } from "./model";
+import { SignAccessToken, SignRefreshToken } from "../../util";
 
 export function Auth() {
   return createMiddleware(async (c, next) => {

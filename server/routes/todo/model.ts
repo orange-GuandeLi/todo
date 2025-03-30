@@ -1,7 +1,7 @@
-import { TodoDBISchema, TodoTable, TodoDBUSchema } from "db/schema/todo";
-import { DBInsert, DBUpdate, DBSelect } from "db/util";
 import type { SQL } from "drizzle-orm";
 import type { z } from "zod";
+import { TodoDBISchema, TodoTable, TodoDBUSchema } from "../../../db/schema/todo";
+import { DBInsert, DBUpdate, DBSelect } from "../../../db/util";
 
 export async function insertTodo({ values } : {values: z.infer<typeof TodoDBISchema>}) {
   return await DBInsert({

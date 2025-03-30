@@ -28,13 +28,16 @@ export const app = new Hono()
     }
 
     return c.text("Internal Server Error", 500);
-  })
-  .use(serveStatic({ root: "./client/dist" }));
+  });
 
 const apiRoute = app
   .basePath("/api")
   .route("/todo", todo)
   .route("/user", user)
   .get("/ping", (c) => c.text("pong"));
+
+app
+  .use(serveStatic({ root: "./client/dist" }))
+  .use(serveStatic({ path: "./client/dist/index.html" }));
 
 export type ApiRoute = typeof apiRoute;

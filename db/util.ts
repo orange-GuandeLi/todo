@@ -1,6 +1,6 @@
 import type { SQLiteTable, SQLiteInsertValue, SQLiteUpdateSetSource } from "drizzle-orm/sqlite-core";
 import type { SQL } from "drizzle-orm";
-import { db } from "db";
+import { db } from ".";
 
 export async function DBSelect<T extends SQLiteTable>(
   { table, where } :

@@ -1,4 +1,4 @@
-import { TodoDBISchema, TodoDBSSchema, TodoDBUSchema } from "db/schema/todo";
+import { TodoDBSSchema, TodoDBISchema, TodoDBUSchema } from "../../../db/schema/todo";
 
 export const TodoRestSSchema = TodoDBSSchema;
 export const TodoRestISchema = TodoDBISchema.omit({

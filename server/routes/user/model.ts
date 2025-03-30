@@ -1,8 +1,8 @@
-import { RefreshTokenDBISchema, RefreshTokenTable, RefreshTokenDBUSchema } from "db/schema/refresh-token";
-import { UserDBISchema, UserTable, UserDBUSchema } from "db/schema/user";
-import { DBInsert, DBSelect, DBUpdate } from "db/util";
 import type { SQL } from "drizzle-orm";
 import type { z } from "zod";
+import { RefreshTokenDBISchema, RefreshTokenTable, RefreshTokenDBUSchema } from "../../../db/schema/refresh-token";
+import { UserDBISchema, UserTable, UserDBUSchema } from "../../../db/schema/user";
+import { DBInsert, DBUpdate, DBSelect } from "../../../db/util";
 
 export async function insertRefreshToken({ values } : {values: z.infer<typeof RefreshTokenDBISchema>}) {
   return await DBInsert({
