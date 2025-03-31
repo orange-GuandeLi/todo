@@ -1,11 +1,6 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+import { Layout } from '@src/layout/Layout'
+import { createRootRoute } from '@tanstack/react-router'
 
 export const Route = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-      <TanStackRouterDevtools />
-    </>
-  ),
+  component: Layout,
 })

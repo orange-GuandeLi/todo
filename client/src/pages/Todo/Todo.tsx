@@ -4,7 +4,6 @@ import { Inserting } from "./components/Inserting";
 import { Loading } from "./components/Loading";
 import { Error } from "./components/Error";
 import { Insert } from "./components/Insert";
-import { Header } from "./components/Header";
 import { PartitionArray } from "@src/util";
 import { getAllTodosQueryOption } from "./api";
 
@@ -46,16 +45,13 @@ export function Todo() {
   }
 
   return (
-    <main className="w-svw h-svh bg-[url(assets/images/bg.jpg)] bg-center bg-cover overflow-hidden">
-      <div className="bg-white/30 backdrop-blur-sm h-full flex flex-col">
-        <Header />
-        <section className="p-6 flex-1 flex flex-col overflow-hidden">
-          <Insert />
-          <ul className="mt-8 overflow-y-auto no-scrollbar">
-            {content}
-          </ul>
-        </section>
+    <section className="bg-white/30 backdrop-blur-sm size-full flex flex-col overflow-hidden">
+      <div className="p-6 flex-1 flex flex-col overflow-hidden">
+        <Insert />
+        <ul className="mt-8 overflow-y-auto no-scrollbar">
+          {content}
+        </ul>
       </div>
-    </main>
+    </section>
   )
 }

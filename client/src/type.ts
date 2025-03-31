@@ -1,0 +1,1 @@
+export const USER_ITEM_KEY = "UserItemKey";

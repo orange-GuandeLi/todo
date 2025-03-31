@@ -5,13 +5,13 @@ import { Auth } from "./auth-middleware";
 import { HTTPException } from "hono/http-exception";
 import { verify } from "hono/jwt";
 import { insertUser, selectUser, insertRefreshToken, updateRefreshToken } from "./model";
-import { UserDBISchema, UserDBSSchema } from "../../../db/schema/user";
 import { eq, and } from "drizzle-orm";
 import { TypeValidator } from "../../middleware/type-validator";
 import { SignAccessToken, SignRefreshToken } from "../../util";
+import { SignInRestSchema, SignInRestSSchema, UserRestISchema } from "./api-schema";
 
 export const user = new Hono<{ Variables: JwtPayload }>()
-  .post("/", TypeValidator("json", UserDBISchema), async (c) => {
+  .post("/", TypeValidator("json", UserRestISchema), async (c) => {
     const insert = c.req.valid("json");
     insert.password = await Bun.password.hash(insert.password);
 
@@ -20,11 +20,11 @@ export const user = new Hono<{ Variables: JwtPayload }>()
     );
 
     return c.json(
-      UserDBSSchema.omit({ password: true }).parse(res),
+      res,
       201,
     );
   })
-  .post("/signIn", TypeValidator("json", UserDBISchema), async (c) => {
+  .post("/signIn", TypeValidator("json", SignInRestSchema), async (c) => {
     const { email, password } = c.req.valid("json");
     const user = await selectUser({
       where: (table) => eq(table.email, email),
@@ -60,7 +60,7 @@ export const user = new Hono<{ Variables: JwtPayload }>()
     });
 
     return c.json(
-      UserDBSSchema.omit({ password: true }).parse(user),
+      SignInRestSSchema.parse(user),
       200,
     );
   })
@@ -83,18 +83,8 @@ export const user = new Hono<{ Variables: JwtPayload }>()
           eq(table.groupID, groupID),
         ),
       });
-
-      c.header(
-        ACCESS_NEW_TOKEN_HEADER,
-        "",
-      );
       
-      c.header(
-        REFRESH_NEW_TOKEN_HEADER,
-        "",
-      );
-      
-      return c.body(null, 204);
+      return c.text("Signout successfully.", 200);
     } catch {
       throw err;
     }
