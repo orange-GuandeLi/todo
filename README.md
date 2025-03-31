@@ -12,6 +12,8 @@ example:
 # .env
 DB_FILE=./db/db.sqlite
 PORT=3000
+ACCESS_TOKEN_SECRET=access-token
+REFRESH_TOKEN_SECRET=refresh-token
 ```
 
 
