@@ -1,6 +1,6 @@
 import { SignInRestSchema } from "@server/routes/user/api-schema";
 import { api } from "@src/api";
-import { USER_ITEM_KEY } from "@src/type";
+import { SignIn } from "@src/util";
 import { useMutation } from "@tanstack/react-query";
 import { UseNavigateResult } from "@tanstack/react-router";
 import { z } from "zod";
@@ -15,7 +15,7 @@ export const signInMutation = (navigate: UseNavigateResult<string>) => useMutati
     return await res.json();
   },
   onSuccess: async (data) => {
-    localStorage.setItem(USER_ITEM_KEY, JSON.stringify(data));
+    await SignIn(data);
     await navigate({to: "/"});
   }
 });

@@ -1,22 +1,35 @@
-import { USER_ITEM_KEY } from "@src/type";
 import { signOutMutation } from "../api";
 import { useNavigate } from "@tanstack/react-router";
 import { SignInRestSSchema } from "@server/routes/user/api-schema";
 import { useEffect, useState } from "react";
 import { z } from "zod";
+import { userItemChan } from "@src/chan";
+import { USER_ITEM_KEY } from "@src/type";
+import { SignIn, SignOut } from "@src/util";
 
 export function Header() {
   const navigate = useNavigate();
   const signOut = signOutMutation(navigate);
-  const [userItem, setUserItem] = useState<z.infer<typeof SignInRestSSchema>>();
-
-  const userItemStr = localStorage.getItem(USER_ITEM_KEY);
+  const [userItem, setUserItem] = useState<z.infer<typeof SignInRestSSchema> | undefined>(undefined);
  
   useEffect(() => {
-    if (userItemStr) {
-      setUserItem(SignInRestSSchema.parse(JSON.parse(userItemStr)))
-    }
-  }, [userItemStr]);
+    (async () => {
+      for await (const signin of userItemChan) {
+        setUserItem(signin);
+      }
+    })();
+
+    (async () => {
+      try {
+        const userItemStr = localStorage.getItem(USER_ITEM_KEY);
+        if (userItemStr) {
+          await SignIn(SignInRestSSchema.parse(JSON.parse(userItemStr)));
+        }
+      } catch {
+        await SignOut();
+      }
+    })();
+  }, []);
 
   const signOutTigger = () => {
     signOut.mutate();
