@@ -11,6 +11,7 @@ import { Bounce, toast, ToastContainer } from 'react-toastify';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
 import { HTTPException } from 'hono/http-exception'
+import { SignOut } from './util';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,9 +26,10 @@ const queryClient = new QueryClient({
     },
   },
   queryCache: new QueryCache({
-    onError: (err) => {
+    onError: async (err) => {
       toast.error(err.message);
       if (err instanceof HTTPException && err.status == 401) {
+        await SignOut();
         router.navigate({
           to: "/auth",
         });
@@ -35,8 +37,14 @@ const queryClient = new QueryClient({
     }
   }),
   mutationCache: new MutationCache({
-    onError: (err) => {
+    onError: async (err) => {
       toast.error(err.message);
+      if (err instanceof HTTPException && err.status == 401) {
+        await SignOut();
+        router.navigate({
+          to: "/auth",
+        });
+      }
     }
   })
 });

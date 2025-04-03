@@ -10,7 +10,6 @@ export const getAllTodosQueryOption = queryOptions({
     return await res.json();
   },
   staleTime: 5 * 60 * 1000,
-  throwOnError: true,
 })
 
 export const insertTodoMutation = (queryClient: QueryClient) => (
