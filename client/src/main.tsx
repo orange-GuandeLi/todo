@@ -8,10 +8,10 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import { Bounce, toast, ToastContainer } from 'react-toastify';
-import { RouterProvider, createRouter } from '@tanstack/react-router';
-import { routeTree } from './routeTree.gen';
+import { RouterProvider } from '@tanstack/react-router';
 import { HTTPException } from 'hono/http-exception'
 import { SignOut } from './util';
+import { router } from './route';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -48,14 +48,6 @@ const queryClient = new QueryClient({
     }
   })
 });
-
-const router = createRouter({ routeTree });
-
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: typeof router
-  }
-}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

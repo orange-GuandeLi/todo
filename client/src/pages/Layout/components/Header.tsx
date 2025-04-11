@@ -44,18 +44,14 @@ export function Header() {
           </svg>
           <Link to="/">Orange</Link>
         </h2>
-        <ul className="flex items-center gap-4">
-          <li>
-            <Link to="/" >
-              Design
-            </Link>
-          </li>
-          <li>
-            <Link to="/" >
-              Todo
-            </Link>
-          </li>
-        </ul>
+        <nav className="flex items-center gap-4">
+          <Link to="/design" activeProps={{ className: "text-cyan-600" }}>
+            Design
+          </Link>
+          <Link to="/todo" activeProps={{ className: "text-cyan-600" }}>
+            Todo
+          </Link>
+        </nav>
       </div>
       <ul className="flex items-center gap-4">
         {
