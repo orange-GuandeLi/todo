@@ -1,10 +1,6 @@
 export function Button() {
   return (
-    <section className="
-      columns-[6_12rem] gap-4 w-[min(80rem,_100%)] m-auto p-4
-      [&>*]:w-full [&>*]:grid [&>*]:place-content-center [&>*]:mb-4
-    "
-    >
+    <section className="flex gap-4 p-4 flex-wrap">
       <div>
         <button className="
           px-4 py-2 bg-cyan-600 text-white rounded cursor-pointer transition
